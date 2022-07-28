@@ -1,0 +1,156 @@
+{% extends 'index.html' %}{% load st_tags %}{% load i18n %}
+{% load static %}
+{% block head %}
+<meta name="csrf-token" content="{{csrf_token}}" />
+{% endblock %}
+{% block content %}
+    <!-- start category and banner section -->
+    <div class="container-fluid">
+        <div class="mainrow">
+            <div class="row">
+                <div class="col-md-2">
+                   
+                    <div class="border borderclass">
+                      <h4 class="categoryheading"><span><i class="fas fa-bars"></i></span><strong><a href="{% url 'category_list' %}">{% trans 'All Categories' %}</a></strong></h4>
+                      <ul class="list-group categorylistas">
+                        {% for category in category_list %}
+                          <li class="list-group-item listscroll">{% if category.slug in request.path %}<a href="{% url 'subcategory' category.slug %}" style=" color: green">{{category.title}}</a> {% endif %}</li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="menullist">
+                                <ul class="list-unstyled">
+                                    <li><a href="{% url 'home' %}">{% trans 'HOME' %}</a></li>
+                                    <li><a href="{% url 'products' %}">{% trans 'STORE' %}</a></li>
+                                    <li><a href="{% url 'account' %}">{% trans 'MY ACCOUNT' %}</a></li>
+                                    <li><a href="{% url 'wishlist' %}">{% trans 'WISHLIST' %}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="locationdiv11">
+                                <button class="btn" type="button"><i class="fas fa-map-marker-alt"></i></button><span>{% trans 'Select Your Location' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="categoryhead">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3>{{category.title}}</h3>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p style="float: right;">{{users.start_index}}-{{users.end_index}} {{category.title}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12"><hr style="border-color: #000;"></div>
+                        {% for products in users %}
+                        <div class="col-md-3">
+                            <div class="recentdiv categoryprod">
+                                <div class="rcentprodimag" style="min-height: 170px;">
+                                    <a href="{% url 'product' products.slug %}"><img src="{% if products.image %}{{products.image.url}}{% endif %}"></a>
+                                </div>
+                                <div class="bottomdiv">
+                                    <div class="productde">
+                                        <h6><a href="{% url 'product' products.slug %}">{{products.title|truncatechars:25}}</a></h6>
+                                        <p>AED <span style="font-weight: bold;">{{products.price|floatformat:2}}</span>
+                                          <button type="button" class="heartbtn" heart-id = "{{products.id}}" name = "heart" >{% if products.id|wishproditem:request %}<i class="fal fa-heart heartcolor" id="icon_{{products.id}}"></i>{% else %}<i class="fal fa-heart" id="icon_{{products.id}}"></i>{% endif %}</button>
+                                        </p>
+                                    </div>
+                                    <!-- <div class='rating-stars text-center'>
+                                      <div class="rate">
+                                        {% for _ in '12345' %}
+                                          {% if forloop.counter <= product.avg_rating %}
+                                          <span class="fa fa-star starchecked" title="{{product.avg_rating}}"></span>
+                                          {% else %}
+                                          <span class="fa fa-star"></span>
+                                          {% endif %}
+                                        {% endfor %}
+                                      </div>
+                                    </div> -->
+                                    <div class="rating">
+                                      
+                                      {% for _ in '12345' %}
+                                        {% if forloop.counter <= product.avg_rating %}
+                                        <!-- <span class="starchecked">☆</span> -->
+                                        <span class="fa fa-star starchecked"></span>
+                                        {% else %}
+                                        <!-- <span>☆</span> -->
+                                        <span class="fa fa-star withoutchecked"></span>
+                                        {% endif %}
+                                      {% endfor %}
+                                    </div>
+                                    <div class="addtocart">
+                                        <button type="submit" class="border wishlistbtn" data-id = "{{products.id}}">{% trans 'Add to cart' %}</button>
+                                        <form class="productforminpt">
+                                            
+                                            <input name="qty" id="quantity{{products.id}}" type="text" class="qty inputquanatity" value="{{products.id|wishprod:request}}" product-id="{{products.id}}">
+                                            <div class="cart-button homebtn">
+                                                <button type="submit" class="arrowup plusarrow" product-id="{{products.id}}" class-name = "plusq"><i class="fas fa-angle-up" ></i></button>
+                                                <button type="submit" class="arrowup minusarrow" product-id="{{products.id}}" class-name = "minusq"><i class="fas fa-angle-down"></i></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row justify-content-center">
+            <!-- <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#">Next</a>
+                </li>
+              </ul>
+            </nav> -->
+            <nav>
+              <ul class="pagination justify-content-center">
+              {% if users.has_previous %}
+                 <li class="page-item">
+                    <a class="page-link" href="?page={{users.previous_page_number}}">{% trans 'Previous' %}</a>
+                 </li>
+              {% else %}
+                 <li class="page-item">
+                    <a class="page-link" href="#">{% trans 'Previous' %}</a>
+                 </li>
+              {% endif %}
+              {% for i in users.paginator.page_range %}
+                 {% if users.number == i %}
+                 <li class="page-item active"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                 {% else %}
+                  <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                  {% endif %}
+              {% endfor %}
+              {% if users.has_next %}
+                 <li class="page-item">
+                    <a class="page-link" href="?page={{users.next_page_number}}">{% trans 'Next' %}</a>
+                 </li>
+              {% else %}
+                 <li class="page-item">
+                    <a class="page-link" href="#">{% trans 'Next' %}</a>
+                 </li>
+              {% endif %}
+              </ul>
+           </nav>
+        </div>
+    </div>
+
+{% endblock %}

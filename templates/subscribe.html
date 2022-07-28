@@ -1,0 +1,39 @@
+{% extends 'index.html' %}{% load i18n %}
+{% load static %}
+{% block content %}
+	<div class="container-fluid">
+        <div class="mainrow">
+            <div class="row">
+             
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="menullist">
+                                <ul class="list-unstyled">
+                                    <li><a href="{% url 'home' %}">{% trans 'HOME' %}</a></li>
+                                    <li><a href="{% url 'products' %}">{% trans 'STORE' %}</a></li>
+                                    <li><a href="{% url 'account' %}">{% trans 'MY ACCOUNT' %}</a></li>
+                                    <li><a href="{% url 'wishlist' %}">{% trans 'WISHLIST' %}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="locationdiv11">
+                                <button class="btn" type="button"><i class="fas fa-map-marker-alt"></i></button><span>{% trans 'Select Your Location' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<h3>{% trans 'Thanks' %}</h3>
+			</div>
+		</div>
+		
+	</div>
+
+{% endblock %}

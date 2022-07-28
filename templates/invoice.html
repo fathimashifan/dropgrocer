@@ -1,0 +1,219 @@
+{% load static %}{% load i18n %}
+{% load tz %}
+<!doctype html public "-//w3c//dtd html 4.01//en" "http://www.w3.org/tr/html4/strict.dtd">
+<html>
+   <head>
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+      <title>{% trans 'invoice' %}</title>
+      <meta name="generator" content="bcl easyconverter sdk 5.0.210">
+      <style type="text/css">
+         body {margin-top: 0px;margin-left: 0px;}
+         #page_1 {position:relative; overflow: hidden;margin: 3px 0px 12px 0px;padding: 0px;border: none;width: 794px;}
+         #page_1 #id1_1 {border:none;margin: 16px 0px 0px -12px;padding: 0px;border:none;width: 794px;overflow: hidden;}
+         #page_1 #id1_2 {border:none;margin: 72px 0px 0px 57px;padding: 0px;border:none;width: 680px;overflow: hidden;}
+         #page_1 #id1_2 #id1_2_1 {float:left;border:none;margin: 0px 0px 0px 0px;padding: 0px;border:none;width: 419px;overflow: hidden;}
+         #page_1 #id1_2 #id1_2_2 {float:left;border:none;margin: 0px 0px 0px 0px;padding: 0px;border:none;width: 261px;overflow: hidden;}
+         #page_1 #id1_3 {border:none;margin: 1px 0px 0px 57px;padding: 0px;border:none;width: 680px;overflow: hidden;}
+         #page_1 #id1_4 {border:none;margin: 19px 0px 0px 55px;padding: 0px;border:none;width: 739px;overflow: hidden;}
+         #page_1 #id1_4 #id1_4_1 {float:left;border:none;margin: 1px 0px 0px 0px;padding: 0px;border:none;width: 358px;overflow: hidden;}
+         #page_1 #id1_4 #id1_4_2 {float:left;border:none;margin: 0px 0px 0px 0px;padding: 0px;border:none;width: 381px;overflow: hidden;}
+         #page_1 #id1_5 {border:none;margin: 263px 0px 0px 0px;padding: 0px;border:none;width: 794px;overflow: hidden;}
+         #page_1 #id1_6 {border:none;margin: 21px 0px 0px 260px;padding: 0px;border:none;width: 534px;overflow: hidden;}
+         #page_1 #p1dimg1 {position:absolute;top:0px;left:51px;z-index:-1;width:687px;height:743px;}
+         #page_1 #p1dimg1 #p1img1 {width:295px;height:87px;}
+         #page_1 #p1inl_img1 {position:relative;width:2px;height:21px;}
+         #page_1 #p1inl_img2 {position:relative;width:1px;height:23px;}
+         #page_1 #p1inl_img3 {position:relative;width:1px;height:23px;}
+         .dclr {clear:both;float:none;height:1px;margin:0px;padding:0px;overflow:hidden;}
+         .ft0{font: bold 18px 'helvetica';line-height: 21px;}
+         .ft1{font: 18px 'helvetica';line-height: 21px;}
+         .ft2{font: bold 15px 'helvetica';line-height: 18px;}
+         .ft3{font: 15px 'helvetica';line-height: 17px;}
+         .ft4{font: 12px 'helvetica';line-height: 15px;}
+         .ft5{font: 15px 'helvetica';margin-left: 4px;line-height: 17px;}
+         .ft6{font: 1px 'helvetica';line-height: 1px;}
+         .ft7{font: bold 12px 'helvetica';line-height: 15px;}
+         .ft8{font: bold 12px 'helvetica';line-height: 12px;}
+         .ft9{font: 1px 'helvetica';line-height: 12px;}
+         .ft10{font: 17px 'arial';line-height: 18px;}
+         .ft11{font: 11px 'helvetica';line-height: 12px;}
+         .ft12{font: bold 12px 'helvetica';line-height: 15px;position: relative; bottom: -6px;}
+         .ft13{font: 10px 'helvetica';line-height: 13px;}
+         .ft14{font: 15px 'arial';line-height: 17px;}
+         .ft15{font: bold 17px 'arial';background-color: #cacaca;line-height: 19px;}
+         .ft16{font: 8px 'helvetica';color: #808080;line-height: 10px;}
+         .ft17{font: 8px 'calibri';line-height: 10px;}
+         .p0{text-align: left;padding-left: 413px;margin-top: 0px;margin-bottom: 0px;}
+         .p1{text-align: right;padding-right: 95px;margin-top: 1px;margin-bottom: 0px;}
+         .p2{text-align: left;margin-top: 0px;margin-bottom: 0px;}
+         .p3{text-align: left;padding-right: 91px;margin-top: 3px;margin-bottom: 0px;}
+         .p4{text-align: left;margin-top: 2px;margin-bottom: 0px;}
+         .p5{text-align: left;margin-top: 13px;margin-bottom: 0px;}
+         .p6{text-align: right;padding-left: 111px;margin-top: 0px;margin-bottom: 0px;}
+         .p7{text-align: right;margin-top: 1px;margin-bottom: 0px;}
+         .p8{text-align: justify;padding-left: 166px;margin-top: 52px;margin-bottom: 0px;text-indent: -41px;}
+         .p9{text-align: justify;padding-left: 44px;margin-top: 17px;margin-bottom: 0px;text-indent: 4px;}
+         .p10{text-align: left;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+         .p11{text-align: right;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+         .p12{text-align: right;padding-right: 11px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+         .p13{text-align: left;padding-left: 3px;margin-top: 4px;margin-bottom: 0px;}
+         .p14{text-align: left;margin-top: 3px;margin-bottom: 0px;}
+         .p15{text-align: left;padding-left: 3px;margin-top: 1px;margin-bottom: 0px;}
+         .p16{text-align: left;padding-left: 1px;margin-top: 91px;margin-bottom: 0px;}
+         .p17{text-align: left;padding-left: 23px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+         .p18{text-align: left;padding-left: 2px;margin-top: 11px;margin-bottom: 0px;}
+         .p19{text-align: right;padding-right: 58px;margin-top: 13px;margin-bottom: 0px;}
+         .p20{text-align: left;padding-left: 104px;margin-top: 46px;margin-bottom: 0px;}
+         .p21{text-align: left;padding-left: 169px;margin-top: 43px;margin-bottom: 0px;}
+         .p22{text-align: left;padding-left: 142px;margin-top: 0px;margin-bottom: 0px;}
+         .p23{text-align: left;padding-left: 131px;margin-top: 7px;margin-bottom: 0px;}
+         .p24{text-align: left;padding-left: 302px;margin-top: 8px;margin-bottom: 0px;}
+         .p25{text-align: right;padding-right: 48px;margin-top: 0px;margin-bottom: 0px;}
+         .td0{padding: 0px;margin: 0px;width: 379px;vertical-align: bottom;}
+         .td1{padding: 0px;margin: 0px;width: 301px;vertical-align: bottom;}
+         .td2{padding: 0px;margin: 0px;width: 24px;vertical-align: bottom;}
+         .td3{padding: 0px;margin: 0px;width: 275px;vertical-align: bottom;}
+         .td4{padding: 0px;margin: 0px;width: 56px;vertical-align: bottom;}
+         .td5{padding: 0px;margin: 0px;width: 79px;vertical-align: bottom;}
+         .td6{padding: 0px;margin: 0px;width: 120px;vertical-align: bottom;}
+         .td7{padding: 0px;margin: 0px;width: 45px;vertical-align: bottom;}
+         .tr0{height: 22px;}
+         .tr1{height: 19px;}
+         .tr2{height: 20px;}
+         .tr3{height: 12px;}
+         .tr4{height: 18px;}
+         .tr5{height: 15px;}
+         .tr6{height: 21px;}
+         .t0{width: 680px;font: 15px 'helvetica';margin-top: 20px}
+         .t1{width: 299px;margin-left: 3px;font: bold 12px 'helvetica';}
+         .t2{width: 300px;margin-left: 2px;font: bold 12px 'helvetica';}
+
+      </style>
+   </head>
+   <body>
+      <div id="page_1">
+         <div id="p1dimg1">
+            <img src="{% static 'img/dglogo.png' %}" id="p1img1">
+         </div>
+         <div class="dclr"></div>
+         <div id="id1_1">
+            <p class="p0 ft0">{% trans 'Tax Invoice of Supply/Cash Memo' %}</p>
+            <p class="p1 ft1">{% trans '(Original for Recipient)' %}</p>
+         </div>
+         <div id="id1_2">
+            <div id="id1_2_1">
+               <p class="p2 ft2">{% trans 'Sold By :' %}</p>
+               <p class="p2 ft3">{% trans 'Drop Grocer' %}</p>
+               <p class="p3 ft3"><span class="ft5">{% trans 'Address' %}</span></p>
+               <p class="p5 ft3"><span class="ft2">{% trans 'PAN No:' %}' </span>dczpp1879j</p>
+               <p class="p2 ft2">{% trans 'GST Registration No:' %}' <span class="ft3">06abwpj9426g2z5</span></p>
+            </div>
+            <div id="id1_2_2">
+               <p class="p6 ft3"><span class="ft2">{% trans 'Billing Address :' %} </span>{{object.address.title}}</p>
+               <p class="p7 ft3">{{object.address.address}}, {{object.address.city}},</p>
+            <p class="p7 ft3">{{object.address.state}}, {{object.address.country}} {{object.address.postcode}}</p>
+            {% comment %}
+               <p class="p8 ft3"><span class="ft2">shipping address : </span>pritee kumari pritee kumari</p>
+               <p class="p7 ft3">bajawa stand, seethal udaipurwati, rajasthan, 333021 in <span class="ft2">state/ut code: </span>08</p>
+               <p class="p9 ft2">place of supply: <span class="ft3">rajasthan </span>place of delivery: <span class="ft3">rajasthan</span></p>
+            {% endcomment %}
+            </div>
+         </div>
+         <div id="id1_3">
+            <table cellpadding=0 cellspacing=0 class="t0">
+               <tr>
+                  <td class="tr0 td0">
+                     <p class="p10 ft3">
+                        <span class="ft2">{% trans 'Order Number:' %}' </span>
+                        <nobr>{{object.id}}</nobr>
+                     </p>
+                  </td>
+                  {% comment %}
+                  <td class="tr0 td1">
+                     <p class="p11 ft2">
+                        invoice number : 
+                        <nobr><span class="ft3">del4-8801</span></nobr>
+                     </p>
+                  </td>
+                  {% endcomment %}
+               </tr>
+               <tr>
+                  <td class="tr1 td0">
+                     <p class="p10 ft2">{% trans 'Order Date:' %} <span class="ft3">{{order.timestamp | timezone:"Asia/Kolkata"}}</span></p>
+                  </td>
+                  {% comment %}
+                  <td class="tr1 td1">
+                     <p class="p11 ft3">
+                        <span class="ft2">invoice details : </span>
+                        <nobr>hr-del4-140875431-1920</nobr>
+                     </p>
+                  </td>
+                  {% endcomment %}
+               </tr>
+               {% comment %}
+               <tr>
+
+                  <td class="tr1 td0">
+                     <p class="p10 ft6">&nbsp;</p>
+                  </td>
+                  <td class="tr1 td1">
+                     <p class="p11 ft2">invoice date : <span class="ft3">10.03.2020</span></p>
+                  </td>
+               </tr>
+               {% endcomment %}
+            </table>
+         </div>
+         <div id="id1_4">
+            <div>
+               <table cellpadding=0 cellspacing=0 width="100%" style="font: 15px 'helvetica'; text-align: center; border-collapse:collapse" border="1">
+                  <tr style="font: bold ">
+                     <th>{% trans 'S. No.' %}</th>
+                     <th>{% trans 'Description' %}</th>
+                     <th>{% trans 'Unit Price' %}</th>
+                     <th>{% trans 'Qty' %}</th>
+                     <th>{% trans 'Total Amount' %}</th>
+                  </tr>
+                  {% for wishlist in order.wishlist.all %}
+                  <tr>
+                     <td>{{forloop.counter}}</td>
+                     <td>{{wishlist.product.title}}</td>
+                     <td>{{wishlist.price|floatformat:2}}</td>
+                     <td>{{wishlist.quantity}}</td>
+                     <td>{{wishlist.total|floatformat:2}}</td>
+                  </tr>
+                  {% endfor %}
+                  <tr>
+                     <td colspan="4" style="text-align: right !important;">{% trans 'Delivery amount' %}</td>
+                     <td >{{delivery_charge.amount|floatformat:2}}</td>
+                  </tr><tr>
+                     <td colspan="4" style="text-align: right !important;">{% trans 'Discount' %}</td>
+                     <td >{{order.discount.amount|floatformat:2}}</td>
+                  </tr>
+                  <tr style="font-weight: bold; font-size: 15px">
+                     <td colspan="4"  style="text-align: right !important;">{% trans 'Total' %}</td>
+                     <td >{{order.total|floatformat:2}}</td>
+                  </tr>
+               </table>
+
+               <table align="right" style="margin-top: 20px; font: 15px 'helvetica';" >
+                  <tr>
+                     <td style="font-weight: bold;">{% trans 'For Drop Grocer Marketing:' %}</td>
+                  </tr>
+                  <tr>
+                     <td style="font-weight: bold;">{% trans 'Authorized Signatory' %}</td>
+                  </tr>
+               </table>
+               {% comment %}
+               <p class="p14 ft2"><img src="data:image/png;base64,ivborw0kggoaaaansuheugaaaaeaaaavcayaaachuoqeaaaafeleqvqimwngygd4z8tawmbaywiabtgbkc8vov4aaaaasuvork5cyii=" id="p1inl_img1">amount in words:</p>
+               <p class="p15 ft2">
+                  ten thousand three hundred and 
+                  <nobr>fifty-five</nobr>
+                  only
+               </p>
+               <p class="p16 ft3">whether tax is payable under reverse charge - no</p>
+               {% endcomment %}
+            </div>
+         </div>
+      </div>
+   </body>
+</html>

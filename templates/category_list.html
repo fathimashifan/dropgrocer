@@ -1,0 +1,102 @@
+{% extends 'index.html' %}{% load st_tags %}{% load i18n %}
+{% load static %}
+{% block content %}
+    <!-- start category and banner section -->
+    <div class="container-fluid">
+        <div class="mainrow">
+            <div class="row">
+                <div class="col-md-2">
+               
+                    <div class="border borderclass">
+                      <h4 class="categoryheading"><span><i class="fas fa-bars"></i></span><strong><a href="{% url 'category_list' %}">{% trans 'All Categories' %}</a></strong></h4>
+                      <ul class="list-group categorylistas">
+                        {% for category in category_list %}
+                          <li class="list-group-item listscroll"><a href="{% url 'subcategory' category.slug %}">{{category.title}}</a></li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="menullist">
+                                <ul class="list-unstyled">
+                                    <li><a href="{% url 'home' %}">{% trans 'HOME' %}</a></li>
+                                    <li><a href="{% url 'products' %}">{% trans 'STORE' %}</a></li>
+                                    <li><a href="{% url 'account' %}">{% trans 'MY ACCOUNT' %}</a></li>
+                                    <li><a href="{% url 'wishlist' %}">{% trans 'WISHLIST' %}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="locationdiv11">
+                                <button class="btn" type="button"><i class="fas fa-map-marker-alt"></i></button><span>{% trans 'Select Your Location' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                          <div class="recentborder">
+                              <h3>{% trans 'Categories' %}</h3>
+                          </div>
+                      </div>
+                      {% for category in category_list %}
+                      <div class="col-md-3">
+                          
+                          <div class="recentdiv1">
+                              <div class="rcentprodimag1">
+                                  <a href="{% url 'category' category.slug %}"><img src="{% if category.image %}{{category.image.url}}{% endif %}"></a>
+                              </div>
+                              <div class="bottomdiv1">
+                                  <div class="productde">
+                                      <h5><a href="{% url 'category' category.slug %}">{{category.title}}</a></h5>
+                                      <!-- <p><i class="fal fa-heart"></i></p> -->
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      {% endfor %}
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row justify-content-center">
+            <nav>
+              <ul class="pagination justify-content-center">
+              {% if page_obj.has_previous %}
+                 <li class="page-item">
+                    <a class="page-link" href="?page={{page_obj.previous_page_number}}">{% trans 'Previous' %}</a>
+                 </li>
+              {% else %}
+                 <li class="page-item">
+                    <a class="page-link" href="">{% trans 'Previous' %}</a>
+                 </li>
+              {% endif %}
+              {% for i in page_obj.paginator.page_range %}
+                 {% if page_obj.number == i %}
+                 <li class="page-item active"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                 {% else %}
+                  <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                  {% endif %}
+              {% endfor %}
+              {% if page_obj.has_next %}
+                 <li class="page-item">
+                    <a class="page-link" href="?page={{page_obj.next_page_number}}">{% trans 'Next' %}</a>
+                 </li>
+              {% else %}
+                 <li class="page-item">
+                    <a class="page-link" href="">{% trans 'Next' %}</a>
+                 </li>
+              {% endif %}
+              </ul>
+           </nav>
+        </div>
+    </div>
+
+{% endblock %}

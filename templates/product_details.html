@@ -1,0 +1,131 @@
+{% extends 'index.html' %}{% load st_tags %}{% load i18n %}
+{% block head %}
+<meta name="csrf-token" content="{{csrf_token}}" />
+{% endblock %}
+{% load static %}
+{% block content %}
+ <!-- start category and banner section -->
+    <div class="container-fluid">
+        <div class="mainrow">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="border borderclass">
+                      <h4 class="categoryheading"><span><i class="fas fa-bars"></i></span><strong><a href="{% url 'category_list' %}">{% trans 'All Categories' %}</a></strong></h4>
+                      <ul class="list-group categorylistas">
+                        {% for category in category_list %}
+                          <li class="list-group-item listscroll"><a href="{% url 'subcategory' category.slug %}">{{category.title}}</a></li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="menullist">
+                                <ul class="list-unstyled">
+                                    <li><a href="{% url 'home' %}">{% trans 'HOME' %}</a></li>
+                                    <li><a href="{% url 'products' %}">{% trans 'STORE' %}</a></li>
+                                    <li><a href="{% url 'account' %}">{% trans 'MY ACCOUNT' %}</a></li>
+                                    <li><a href="{% url 'wishlist' %}">{% trans 'WISHLIST' %}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="locationdiv11">
+								<button class="btn" type="button"><i class="fas fa-map-marker-alt"></i></button><span>{% trans 'Select Your Location' %}</span>
+							</div>
+                        </div>
+                    </div>
+                    <div class="row"><div class="col-md-12"><div class="margintoop"></div>
+                    <div class="row">
+						<!-- <div class="col-md-2"></div> -->
+						<div class="col-md-2" style="padding-top: 7px !important;">
+							<ul class="list-unstyled marginlist">
+								<li><button id="bdr0" class="iconimgbtn"><img src="{% if product.image %}{{product.image.url}}{% endif %}" width="65%"></button></li>
+								{% for productimg in product_image|slice:':4' %}
+									<li><button id="bdr{{forloop.counter}}" class="iconimgbtn"><img src="{% if productimg.image %}{{productimg.image.url}}{% endif %}" width="65%"></button></li>
+								{% endfor %}
+							</ul>
+						</div>
+						<div class="col-md-3" style="padding-top: 7px !important;">
+							<div class="mag1">
+								<div class="productimage">
+									<img data-toggle="magnify" src="{% if product.image %}{{product.image.url}}{% endif %}" id="productimage12"class="img-fluid img-rounded mx-auto">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-1"style="padding-top: 7px !important;"></div>
+						<div class="col-md-6">
+							<div class="productdetails justify-content-center">
+								<p><span class="prodtitle">{{product.title}}</span><span style="margin: 0 5px;">{{product.weight}}</span><span>{{product.weight_type}}</span></p>
+								<div class="prodcutpriced">
+									<ul class="list-group list-group-horizontal">
+										<li class="list-group-item" style="color: #ED4A06;">AED <strong>{{product.price|floatformat:2}}</strong></li>
+										<li class="list-group-item">
+											<button type="button" class="heartbtn" heart-id = "{{product.id}}" name = "heart" style="background-color: unset;">{% if product.id|wishproditem:request %}<i class="fal fa-heart heartcolor" id="icon_{{product.id}}"></i>{% else %}<i class="fal fa-heart" id="icon_{{product.id}}"></i>{% endif %}</button>
+										</li>
+										<li class="list-group-item">{% if product.stock_availbility %} <span class="stockin">{% trans 'Available' %}</span> {% else %} <span class="outofstock">{% trans 'Out of stock' %}</span> {% endif %}</li>
+									</ul>
+								</div>
+								<div class="rating ratingpad">
+									
+									{% for _ in '12345' %}
+										{% if forloop.counter <= product.avg_rating %}
+										<!-- <span class="starchecked">☆</span> -->
+										<span class="fa fa-star starchecked"></span>
+										{% else %}
+										<!-- <span>☆</span> -->
+										<span class="fa fa-star withoutchecked"></span>
+										{% endif %}
+									{% endfor %}
+								</div>
+								<div class="productsd">
+									<p><strong>{% trans 'Available Offers' %}</strong></p>
+									<p style="text-align: justify;">{{product.short_description}}</p>
+								</div>
+								<div class="pdeliverytime">
+									<p>{% trans 'Order within 7 hrs and 05 mins' %}</p>
+								</div>
+								<!-- <p>AED {{product.price}}<span style="margin: 0 5px;"></span></p> -->
+								<!-- <p>{{product.content|safe}}</p> -->
+								<!-- <button type="submit" class="btn btn-primary wishlistbtn" data-id = "{{product.id}}">Add to wishlist</button> -->
+							</div>
+							<div class="row">
+								{% if product.stock_availbility %}
+								<div class="col-md-7">
+										<div class="addtocart" style="margin: unset;">
+						                    <button type="submit" class="border wishlistbtn" data-id = "{{product.id}}">{% trans 'Add to cart' %}</button>
+						                    <form>
+						                        <!-- <input name="qty" id="quantity" type="text" class="qty" style="width: 50%"> -->
+						                        <input name="qty" id="quantity{{product.id}}" type="text" class="qty inputquanatity" value="{{product.id|wishprod:request}}" product-id="{{product.id}}">
+						                        <div class="cart-button homebtn">
+						                            <button type="submit" class="arrowup plusarrow" product-id="{{product.id}}" class-name = "plusq"><i class="fas fa-angle-up" ></i></button>
+				                                    <button type="submit" class="arrowup minusarrow" product-id="{{product.id}}" class-name = "minusq"><i class="fas fa-angle-down"></i></button>
+						                        </div>
+						                    </form>
+						                </div>
+								</div>
+								<div class="col-md-4">
+				                	<a href="{% url 'cart' %}" class="btn btn-primary wishlistbtn productwishlist" data-id = "{{product.id}}">{% trans 'Buy Now' %}</a>
+				                </div>
+						        {% endif %}
+				                <div class="col-md-1"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-8">
+							<div class="productoverview">
+								<h5>{% trans 'Product Overview' %}</h5>
+							</div>
+							<div class="productcontent" style="text-align: justify;">
+								<p>{{product.content|safe}}</p>
+							</div>
+						</div>
+						<div class="col-md-4"></div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,177 @@
+{% extends 'index.html' %}{% load st_tags %}{% load i18n %}
+{% block head %}
+<meta name="csrf-token" content="{{csrf_token}}" />
+{% endblock %}
+{% load static %}
+{% block content %}
+     <!-- start category and banner section -->
+    <div class="container-fluid">
+        <div class="mainrow">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="menullist">
+                                <ul class="list-unstyled">
+                                    <li><a href="{% url 'home' %}">{% trans 'HOME' %}</a></li>
+                                    <li><a href="{% url 'products' %}">{% trans 'STORE' %}</a></li>
+                                    <li><a href="{% url 'account' %}">{% trans 'MY ACCOUNT' %}</a></li>
+                                    <li><a href="{% url 'wishlist' %}">{% trans 'WISHLIST' %}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="locationdiv11">
+                                <button class="btn" type="button"><i class="fas fa-map-marker-alt"></i></button><span>{% trans 'Select Your Location' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="orderdetailsss border">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="shippingimg">
+                                <img src="{% get_static_prefix %}img/presents.png">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="orderdelivery">
+                                <h2><strong>{% trans 'Order placed for AED.' %} {{order.total}}</strong></h2>
+                                <!-- <p>Your {{order.wishlist_set.product.title}} item will be delivered</p> -->
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="ordertrackk">
+                                <!-- <p>Easily track your orders</p> -->
+                                <p><a href="{% url 'order' %}" class="btn bynewbtn">{% trans 'Go to My Orders' %}</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="ordertrackk">
+                                <img src="{% get_static_prefix %}img/carton-box.png">
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div id="map" style="width:100%;height:500px;"></div>
+            </div>
+            <div class="col-md-12">
+                <div class="orderdetailsss border">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="shippingadd">
+                                <h4><strong>{% trans 'Delivery Address' %}</strong></h4>
+                                <p>{{order.address.user.first_name}} {{order.address.user.last_name}}</p>
+                                <p>{{order.address.title}}</p>
+                                <p>{{order.address.city}} {{order.address.postcode}}</p>
+                                <p>{{order.address.state.title}} {{order.address.country.name}}</p>
+                                <p>{% trans 'Mobile No.' %} {{order.address.user.mobile}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="paymenttype">
+                                <h4><strong>{% trans 'Payment Method' %}</strong></h4>
+                                <p>{{order.paymode}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="ordersummary">
+                                <h4><strong>{% trans 'Order Summary' %}</strong></h4>
+                                <ul class="list-unstyled">
+                                    <li><span>{% trans 'Item(s) total:' %}</span><span class="numberleft">{{order.total}}</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="orderdetailsss border">
+                    {% for wishlist in order.wishlist.all %}
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="ordprimg">
+                                <a href="{% url 'product' wishlist.product.slug %}"><img src="{% if wishlist.product.image %}{{wishlist.product.image.url}}{% endif %}"></a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="paymmode">
+                                <h4><strong><a href="{% url 'product' wishlist.product.slug %}">{{wishlist.product.title}}</a></strong></h4>
+                                <p>{{order.seller.username}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="orderamnt">
+                                <h4><strong></strong></h4>
+                               <!--  <ul class="list-unstyled">
+                                    <li><span>Item(s) Subtotal:</span><span class="numberleft">{{order.total}}</span></li>
+                                    <li><span>Shipping:</span><span class="numberleft"></span></li>
+                                    <li></li>
+                                    <li><span>Total:</span><span class="numberleft">{{order.total}}</span></li>
+                                    <li><span>Promotion Applied:</span><span class="numberleft"></span></li>
+                                    <li></li>
+                                    <li><span>Grand Total:</span><span class="numberleft">{{order.total}}</span></li>
+                                </ul> -->
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End category and banner section -->
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        function initMap() {
+            const directionsService = new google.maps.DirectionsService();
+            const directionsRenderer = new google.maps.DirectionsRenderer();
+            
+            var end = '{{order.address.longitute}}';
+            const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 7,
+            center: {
+                lat: 26.7799,
+                lng: 75.8476}
+            });
+            directionsRenderer.setMap(map);
+            calculateAndDisplayRoute(directionsService, directionsRenderer);
+            // const onChangeHandler = function() {
+            //     calculateAndDisplayRoute(directionsService, directionsRenderer);
+            // };
+
+            // document.getElementById("start").addEventListener("change", onChangeHandler);
+            // document.getElementById("end").addEventListener("change", onChangeHandler);
+        }
+        
+        function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+            var start_latitude = '{{order.driver.latitude}}';
+            var start_longitute = '{{order.driver.longitute}}';
+            var end_latitude = '{{order.address.latitude}}';
+            var end_longitute = '{{order.address.longitute}}';
+            directionsService.route(
+              {
+                origin: {lat: parseFloat(start_latitude), lng: parseFloat(start_longitute)},
+                destination: {lat: parseFloat(end_latitude), lng: parseFloat(end_longitute)},
+                travelMode: google.maps.TravelMode.DRIVING
+              },
+              (response, status) => {
+                if (status === "OK") {
+                  directionsRenderer.setDirections(response);
+                } else {
+                  window.alert("You can see route for your order once confirmed.");
+                }
+              }
+            );
+        }
+    </script>
+{% endblock %}

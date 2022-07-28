@@ -1,0 +1,275 @@
+<!DOCTYPE html>{% load static %}{% load i18n %}{% load st_tags %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+	<title>{% block title %}{% endblock %}{% trans 'Drop Grocer' %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/all.css">
+    <!-- <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/admin.css"> -->
+    <link rel="stylesheet" type="text/css" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1565190284/Scripts/xzoom.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/dropgrocer.css">
+    <link rel="icon" href="{% static 'img/dropgrocer_favicon.png' %}">
+    {% block head %}
+    {% endblock %}
+  </head>
+  <body>
+    <!-- start header part -->
+    <header class="dgheader">
+        <div class="firstrow">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-8">
+                        <ul class="list-unstyled supporhead">
+                            <li><i class="far fa-phone-alt"></i>{% trans '24/7 Customer Support(01) 123 456 YOUR STORE' %}</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <ul class="list-unstyled unorderli">
+                            <li><a href="#">{% trans 'Track Your Order' %}</a></li>
+                            <li><a href="{% url 'checkout' %}">{% trans 'Checkout' %}</a></li>
+                            <li style="border-right: 1.5px solid #817c7c;"><a href="{% url 'terms' %}">{% trans 'Terms of use' %}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row secondrow">
+                <div class="col-md-2">
+                    <div class="imglogo">
+                        <a href="{% url 'home' %}"><img src="{% get_static_prefix%}img/dglogo.png"></a>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <form method="GET" action="{% url 'search'  %}">
+                        <!-- {% csrf_token %} -->
+                        <div class="searchcategory">
+                            <div class="input-group mb-0">
+                        <div class="form-group-lg wrapper">
+                            <!-- <select id="inputStatelocatin" class="form-control" name="categoryname">
+                              <option  selected disabled="true">--select catagory--</option>
+                              
+                              {%for c in subcategory_list %}
+                              <option>{{c.title}}</option>
+                              {%endfor%}
+                               </select> -->
+                               </div>
+                                
+                                <input type="text" class="form-control searchinput" aria-label="Text input with segmented dropdown button" placeholder="What are you searching for..?" name="inputtext" autocomplete="on">
+                                <ul class="searchresult"></ul>
+                                <div class="input-group-append iconscl" id="button-addon4">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i>{% trans 'SEARCH' %}</button>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-3">
+                    <div class="loginside">
+                        <div class="userlogin">
+                            <a href="{% url 'cart' %}"><span><i class="far fa-shopping-bag"></i></span></a>
+                            {% if request.user.is_authenticated %}
+                                {% wish_list as cart %}
+                                <sup id="like_count"> {{cart}}</sup>
+                                <p class="my-cart-class"><a href="{% url 'cart' %}">{% trans 'My Cart' %}</a></p>
+                                {% wishlist_total as total %}
+                                <p id="totalprice">AED. {{total|floatformat:2}}</p>
+                            {% else %}
+                                <sup id="like_count">0</sup>
+                                <p class="my-cart-class">{% trans 'My Cart' %}</p>
+                                <p>AED. 0.00</p>
+                            {% endif %}
+                        </div>
+                        <div class="userdetail1">
+                            {% if request.user.image %}
+                                <span style="padding: 0 !important"><img src="{{request.user.image.url}}" class="img-responsive" style="max-height: 50px;max-width: 85px;"></span>
+                            {% else %}
+                                <span><i class="fas fa-user"></i> </span> 
+                            {% endif %} 
+                            {% if request.user.is_authenticated %}
+                                <p>Hello <a href="{% url 'profile' %}">{{request.user.username|truncatechars:20}}
+                                </a></p>
+                                <a href="{% url 'logout' %}">{% trans 'Logout' %}</a>
+                            {% else %}
+                                <p><a href="{% url 'login' %}">{% trans 'Login' %}</a></p>
+                                <a href="{% url 'signup' %}">{% trans 'Sign up me' %}</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <hr>
+    <!-- End header part -->
+    {% block content %}
+    {% endblock %}
+    <!-- start footer part -->
+    <div class="border marginborder"></div>
+    <div id="snackbar"><i class="fas fa-heart addwishlist"></i> {% trans 'Product add in wishlist' %}</div>
+    <div class="removewishlist">
+        <div id="snackbar"><i class="fas fa-heart"></i> {% trans 'Product removed from wishlist' %}</div>
+    </div>
+    <footer>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="newsletterp border rounded-lg">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <img src="{% get_static_prefix %}img/1234.png">
+                                </div>
+                                <div class="col-md-9">
+                                    <h5>{% trans 'NEWSLETTER SIGN-UP' %}</h5>
+                                    <p class="pnesletter">{% trans 'Sed ut perspiciatis unde omnis' %}</p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <form method="POST" action="{% url 'subscribe' %}">
+                                {% csrf_token %}
+                                <div class="input-group mb-3 rounded-pill">
+                                  <input type="email" class="form-control subscinput" placeholder="enter your email address" aria-label="Recipient's username" aria-describedby="button-addon2" name="email" required>
+                                  <input type="hidden" class="form-control" name="url" value="{{request.build_absolute_uri}}">
+                                  <div class="input-group-append">
+                                    <button class="btn btn-secondary subsribebtn subscrbenow" type="submit" id="button-addon2"><span>{% trans 'SUBSCRIBE' %}</span></button>
+                                  </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="border rounded-lg">
+                        <ul class="list-unstyled lefttoright">
+                            <li><span>Follow us on</span></li>
+                            <li><a href="#" target="_blank"><img src="{% get_static_prefix %}img/facebook.png"></a></li>
+                            <li><a href="#" target="_blank"><img src="{% get_static_prefix %}img/twitter.png"></a></li>
+                            <li><a href="#" target="_blank"><img src="{% get_static_prefix %}img/instagram-logo.png"></a></li>
+                            <li><a href="#" target="_blank"><img src="{% get_static_prefix %}img/google-plus.png"></a></li>
+                            <li><a href="#" target="_blank"><img src="{% get_static_prefix %}img/pinterest.png"></a></li>
+                            <li><a href="#" target="_blank"><img src="{% get_static_prefix %}img/whatsapp.png"></a></li>
+                            <!-- <li><a href="#" target="_blank"><img src="{% get_static_prefix %}img/logo.png"></a></li> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-md-offset-1">
+                    <ul class="list-unstyled supportchat justify-content-end">
+                        <li><a href="#"><i class="fa fa-user-headset"></i><strong>{% trans 'Help & Support' %}</strong></a></li>
+                        <li><a href="mailto:sms@dropgrocer.com"><i class="fa fa-envelope"></i><strong>Email Us</strong></a></li>
+                        <li><a href="#"><i class="fa fa-comment-lines"></i><strong>{% trans 'Chat With Us' %}</strong></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="border marginborder"></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="informationmeu" style="margin-left: 70px;">
+                        <h3><strong>{% trans 'Information' %}</strong></h3>
+                        <ul class="list-unstyled">
+                            <li><a href="/about/">{% trans 'About us' %}</a></li>
+                            <li><a href="{% url 'products' %}">{% trans 'Product' %}</a></li>
+                        </ul>
+                    </div>
+                    
+                </div>
+                <div class="col-md-3">
+                    <div class="informationmeu">
+                        <h3><strong>{% trans 'My Account' %}</strong></h3>
+                        <ul class="list-unstyled">
+                            <li><a href="{% url 'account' %}">{% trans 'My Order' %}</a></li>
+                            <li><a href="{% url 'account' %}">{% trans 'My Account' %}</a></li>
+                            <li><a href="{% url 'profile' %}">{% trans 'Personal info' %}</a></li>
+                            <li><a href="#">{% trans 'Gift card' %}</a></li>
+                        </ul>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col-md-3">
+                    <div class="informationmeu">
+                        <h3><strong>{% trans 'Selling on Drop Grocer' %}</strong></h3>
+                        <ul class="list-unstyled">
+                            <li><a href="{% url 'signup' %}">{% trans 'Create online store' %}</a></li>
+                            <li><a href="{% url 'howitwork' %}">{% trans 'How it work' %}</a></li>
+                            <li><a href="{% url 'sellingpolicy' %}">{% trans 'selling polic' %}ies</a></li>
+                            <li><a href="{% url 'terms' %}">{% trans 'Terms & Conditons' %}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h3 class="downloadappsg"><strong>{% trans 'Download the App' %}</strong></h3>
+                    <ul class="list-unstyled appstoreapp">
+                        <li>
+                            <a href="#" class="ss_appstore" rel="nofollow" target="_blank"><img src="{% get_static_prefix %}img/google.png" width="80%"></a>
+                        </li>
+                        <li>
+                            <a href="#" class="ss_playstore" target="_blank"><img src="{% get_static_prefix %}img/apple.png" width="80%"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" tabindex="-1" role="dialog" id="userLoginModal" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <p>{% trans 'To buy this product, Please login or register yourself first.' %}</p>
+              </div>
+              <div class="modal-footer">
+                <a href="#" class="btn btn-primary">{% trans 'Go to login page' %}</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row footerrow">
+            <div class="col-md-12">
+                <div class="footerft">
+                    <p>&copy; {% now 'Y' %} {% trans 'DropGrocer.com All Rights Reserved to ' %}dropgroucer.com</p>
+                </div>
+            </div>
+            
+        </div>
+    </footer>
+    <!-- End footer part -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/admin.js' %}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1565190285/Scripts/xzoom.min.js"></script>
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script> -->
+    <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script> -->
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    
+    <script type="text/javascript" src="{% static 'js/admin.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/dropgrocer.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/magnify.js' %}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBZdwPnfkQngn9uDt8ho-wQiO8cfMgwaM&callback=initMap" async defer></script>
+    {% block scripts %}
+    {% endblock %}
+  </body>
+</html>

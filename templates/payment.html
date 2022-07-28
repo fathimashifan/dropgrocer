@@ -1,0 +1,99 @@
+{% extends 'index.html' %}{% load static %}{% load i18n %}
+{% block head %}
+<meta name="csrf-token" content="{{csrf_token}}" />
+{% endblock %}
+{% block content %}
+	<!-- start category and banner section -->
+    <div class="container-fluid">
+        <div class="mainrow">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="menullist">
+                                <ul class="list-unstyled">
+                                    <li><a href="{% url 'home' %}">{% trans 'HOME' %}</a></li>
+                                    <li><a href="{% url 'products' %}">{% trans 'STORE' %}</a></li>
+                                    <li><a href="{% url 'account' %}">{% trans 'MY ACCOUNT' %}</a></li>
+                                    <li><a href="{% url 'wishlist' %}">{% trans 'WISHLIST' %}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="locationdiv11">
+                                <button class="btn" type="button"><i class="fas fa-map-marker-alt"></i></button><span>{% trans 'Select Your Location' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End category and banner section -->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-6">
+				<!-- <div class="col-md-12"> -->
+					<h4>{% trans 'Select a payment method' %}</h4>
+				<!-- </div> -->
+				<hr>
+                <form method="POST" action="{% url 'order-successful' orderid.pk %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-check paypalradio">
+                        <input class="form-check-input" type="radio" name="paypal" id="paypalRadios" value="PAYPAL">
+                        <label class="form-check-label" for="paypalRadios">
+                            {% trans 'Paypal' %}
+                        </label>
+                    </div>
+                    <div class="form-check codradio">
+                        <input class="form-check-input" type="radio" name="paypal" id="codRadios" value="COD" checked>
+                        <label class="form-check-label" for="codRadios">
+                            {% trans 'Cash on delivery' %}
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="button btn btn-success orderbtn">{% trans 'Continue' %}</button>
+                </form>
+                <div class="paymentpaypal">
+                    <div id="paypal-button-container"></div> 
+                </div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="https://www.paypal.com/sdk/js?client-id=AViwizYqnVHR6O4TEXD3uCfRDsDiYWBTKtlDl8n0WSUwQyiq8Ut8FSSG64_v7Fw1j0Nl5yzY8J4yzEMr"></script>
+<script>
+    paypal.Buttons({
+    createOrder: function(data, actions) {
+      // This function sets up the details of the transaction, including the amount and line item details.
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: '{{orderid.total}}'
+          }
+        }]
+      });
+    },
+    onApprove: function(data, actions) {
+      // This function captures the funds from the transaction.
+      return actions.order.capture().then(function(details) {
+        // This function shows a transaction success message to your buyer.
+        $.ajax({
+            url : "{% url 'paypal' %}",
+            type : "POST",
+            data : {csrfmiddlewaretoken: $('meta[name="csrf-token"]').attr('content'), 'data':JSON.stringify(details)},
+            success:function(response){
+                console.log(response);
+                window.location.href = '/dropgrocer/track/'+response.order+'/'
+            }
+        })
+        // console.log(details);
+        // alert('Transaction completed by ' + details.payer.name.given_name);
+      });
+    }
+  }).render('#paypal-button-container');
+  //This function displays Smart Payment Buttons on your web page.
+</script>
+{% endblock %}

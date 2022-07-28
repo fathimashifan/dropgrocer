@@ -1,0 +1,74 @@
+<!DOCTYPE html>{% load static %}{% load st_tags %}{% load i18n %}
+<html lang="en">
+  <head>
+	<!-- Required meta tags -->
+	<title>{% block ttitle %}{% endblock %}{% trans 'user_edit' %}</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/all.css">
+	<!-- <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/admin.css"> -->
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/dropgrocer.css">
+	<link rel="icon" href="{% static 'img/dropgrocer_favicon.png' %}">
+	{% block head %}
+	{% endblock %}
+  </head>
+  <body class="backgndcolor">
+	<div class="container-fluid">
+		<div class="signupfm">
+			<div class="row justify-content-center">
+				<div class="col-md-4 col-md-offset-2">
+					<div class="form-group dglogo">
+						<a href="{% url 'home' %}"><img src="{% get_static_prefix %}img/dglogo.png"></a>
+					</div>
+					{% if messages %}
+						{% for message in messages %}
+							<h5 style="text-align: center;">{{message}}</h5>
+						{% endfor %}
+					{% endif %}
+					<div class="signupclass">
+						<p>Profile Update</p>
+						<form method="POST" class="userformsbmit" enctype="multipart/form-data">
+							{% csrf_token %}
+							{% for field in form %}
+							<div class="input-group mb-3">
+								<!-- <label class="col-sm-3 control-label">{{ field.label|safe }}</label> -->
+								<div class="col-md-12">
+									{% if field.name == 'image' %}
+										<input type="file" name="image" class="form-control" style="height: unset;">
+									
+									{% else %}
+									<div class="form-group">
+										{% if field.name == 'mobile' or field.name == 'username' %}
+											<input type="text" name="{{ field.name }}" value="{{ field.value }}" class="form-control">
+										{% else %}
+											{{ field }}
+										{% endif %}
+									</div>
+									{% endif %}
+									{{ field.errors }}
+								</div>
+							</div>
+							{% endfor %}
+							<div class="input-group mb-3">
+							  <button type="submit" class="btn btn-success iq-fw-6">{% trans 'Save' %}</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!-- <div class="col-md-12" style="text-align: center;">
+					<a href="#" class="alreadysign">I already have a account</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+		<script type="text/javascript" src="{% static 'js/admin.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/dropgrocer.js' %}"></script>
+  </body>
+</html>

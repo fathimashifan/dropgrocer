@@ -1,0 +1,66 @@
+{% extends 'index.html' %}{% load st_tags %}{% load i18n %}
+{% block head %}
+<meta name="csrf-token" content="{{csrf_token}}" />
+{% endblock %}
+{% load static %}
+{% block content %}
+     <!-- start category and banner section -->
+    <div class="container-fluid">
+        <div class="mainrow">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="menullist">
+                                <ul class="list-unstyled">
+                                    <li><a href="{% url 'home' %}">{% trans 'HOME' %}</a></li>
+                                    <li><a href="{% url 'products' %}">{% trans 'STORE' %}</a></li>
+                                    <li><a href="{% url 'account' %}">{% trans 'MY ACCOUNT' %}</a></li>
+                                    <li><a href="{% url 'wishlist' %}">{% trans 'WISHLIST' %}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="locationdiv11">
+                                <button class="btn" type="button"><i class="fas fa-map-marker-alt"></i></button><span>{% trans 'Select Your Location' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="orderdetailsss border">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="shippingimg">
+                                <i class="fas fa-badge-check"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="orderdelivery">
+                                <h2><strong>{% trans 'Order placed successfully' %}</strong></h2>
+                                <!-- <p>Your {{order.wishlist_set.product.title}} item will be delivered</p> -->
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="ordersuccess">
+                                <p>{% trans 'Easily track your orders' %}</p>
+                                <p><a href="{% url 'track' order.pk %}" class="btn bynewbtn" style="margin: 0;">{% trans 'Track order' %}</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="ordertrackk">
+                                <img src="{% get_static_prefix %}img/carton-box.png">
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End category and banner section -->
+
+{% endblock %}

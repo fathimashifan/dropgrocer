@@ -1,0 +1,129 @@
+{% load st_tags %}{% load i18n static %}
+
+{% load static %}
+{% block extrahead %}
+<link rel="icon" href="{% static 'img/dropgrocer_favicon.png' %}">
+{% endblock %}
+{% block extrastyle %}
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/all.css">
+<link rel="stylesheet" type="text/css" href="{% static 'css/admin.css' %}">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="{% static 'js/admin.js' %}"></script>
+{% if '/logout/' in request.path %}
+   <style type="text/css">
+     #container{ width: 100%; } 
+  </style>
+{% endif %}
+{% endblock %}
+{% block title %}{{ title }} | {{ site_title|default:_('Drop Grocer admin') }}{% endblock %}
+
+{% block branding %}
+<!-- {% if '/login/' in request.path %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}"><img src="{% static 'images/dglogo.png' %}" height="33px" width="188px" style="padding: 10px 0;" alt="Drop Grocer Logo" /></a>
+</h1>
+{% else %} -->
+<h1 id="site-name">
+    <a href="#"><i class="fa fa-align-justify"></i>{% trans 'Dashboard' %}</a>
+</h1>
+<!-- {% endif %} -->
+{% if '/login/' not in request.path and '/logout/' not in request.path %}
+<menu>
+	<div class="username">
+		<a href="#">
+        	<img src="{% static 'img/dglogo.png' %}" height="33px" width="188px" style="padding: 10px 0;" alt="Drop Grocer Logo" />
+    	</a>
+	</div>
+	<div class="leftmenulist">
+	<ul>
+		<li class="dashborad"><a href="#"><i class="fa fa-tachometer-alt-slowest iconcls"></i><span class="{% if '/dgr/' in request.path and '/dgr/home/' not in request.path %}active{% endif %}">{% trans 'Dashboard' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        {% if 'Admin' in request.user.role %}
+		<li class="dashborad"><a href="#" ><i class="fa fa-folder iconcls"></i><span class="{% if '/category/' in request.path %}active{% endif %}">{% trans 'Category' %}</span><i class="fa fa-chevron-left"></i></a></li>
+		{% endif %}
+        <li class="dashborad"><a href="#"><i class="fa fa-archive iconcls"></i><span class="{% if '/product/' in request.path %}active{% endif %}">{% trans 'Product' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        {% if 'Admin' in request.user.role %}
+		<li class="dashborad"><a href="#"><i class="fa fa-money-bill iconcls"></i><span class="{% if '/discount/' in request.path %}active{% endif %}">{% trans 'Coupons' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        {% endif %}
+        {% comment %}
+		<li class="dashborad"><a href="#"><i class="fas fa-bell iconcls"></i>{% trans 'Notifications' %}<i class="fa fa-chevron-left"></i></a></li>
+        {% endcomment %}
+		<li class="dashborad"><a href="#"><i class="fas fa-shopping-bag iconcls"></i><span class="{% if '/order/' in request.path %}active{% endif %}">{% trans 'Orders' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        {% if 'Admin' in request.user.role %}
+        <li class="dashborad"><a href="#"><i class="fas fa-user iconcls"></i><span class="{% if '/dgr/home/user/' in request.path %}active{% endif %}">{% trans 'Admin' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        {% endif %}
+        <li class="dashborad"><a href="#"><i class="fas fa-user iconcls"></i><span class="{% if '/seller/' in request.path %}active{% endif %}">{% trans 'Seller' %}</span><i class="fa fa-chevron-left"></i></a></li>
+		<li class="dashborad"><a href="#"><i class="fas fa-motorcycle iconcls"></i><span class="{% if '/driver/' in request.path %}active{% endif %}">{% trans 'Drivers' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        {% if 'Admin' in request.user.role %}
+        <li class="dashborad"><a href="#"><i class="fas fa-car iconcls"></i><span class="{% if '/vehicletype/' in request.path %}active{% endif %}">{% trans 'Vehicle Type' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        <li class="dashborad"><a href="#"><i class="fas fa-user iconcls"></i><span class="{% if '/customer/' in request.path %}active{% endif %}">{% trans 'Customer' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        <li class="dashborad"><a href="#"><i class="fas fa-user iconcls"></i><span class="{% if '/over18/' in request.path %}active{% endif %}">{% trans 'Adult Document' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        <!-- <li class="dashborad"><a href="{% url 'admin:index' %}home/discount/"><i class="fas fa-tags iconcls"></i><span class="{% if '/discount/' in request.path %}active{% endif %}">Discount</span><i class="fa fa-chevron-left"></i></a></li> -->
+        <li class="dashborad"><a href="#"><i class="fas fa-image iconcls"></i><span class="{% if '/banner/' in request.path %}active{% endif %}">{% trans 'Banner' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        {% endif %}
+        <li class="dashborad"><a href="#"><i class="fas fa-digital-tachograph iconcls"></i><span class="{% if '/dispatcher/' in request.path %}active{% endif %}">{% trans 'Dispatcher' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        <li class="dashborad"><a href="#"><i class="far fa-file-alt iconcls"></i><span class="{% if '/doctype/' in request.path %}active{% endif %}">{% trans 'Doc Type' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        <li class="dashborad"><a href="#"><i class="fa fa-file-alt iconcls"></i><span class="{% if '/document/' in request.path %}active{% endif %}">{% trans 'Document' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        {% if 'Admin' in request.user.role %}
+        <li class="dashborad"><a href="#"><i class="fas fa-globe iconcls"></i><span class="{% if '/geolocation/country/' in request.path %}active{% endif %}">{% trans 'Country' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        <li class="dashborad"><a href="#"><i class="fas fa-globe iconcls"></i><span class="{% if '/geolocation/state/' in request.path %}active{% endif %}">{% trans 'States' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        <li class="dashborad"><a href="#"><i class="fas fa-fire-alt iconcls"></i><span class="{% if '/deliverycharge/' in request.path %}active{% endif %}">{% trans 'Delivery Charges' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        <li class="dashborad"><a href="#"><i class="fas fa-fire-alt iconcls"></i><span class="{% if '/popup/' in request.path %}active{% endif %}">{% trans 'Popup' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        <li class="dashborad"><a href="#"><i class="fas fa-mobile-alt iconcls"></i><span class="{% if '/fcmdevice/' in request.path %}active{% endif %}">{% trans 'Device' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        <li class="dashborad"><a href="#"><i class="fas fa-mobile-alt iconcls"></i><span class="{% if '/page/' in request.path %}active{% endif %}">{% trans 'Pages' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        {% endif %}
+        <li class="dashborad"><a href="#"><i class="fa fa-file-alt iconcls"></i><span class="{% if '/vehicledoctype/' in request.path %}active{% endif %}">{% trans 'Vehicle Doc Type' %}</span><i class="fa fa-chevron-left"></i></a></li>
+        <li class="dashborad"><a href="#"><i class="fas fa-fire-alt iconcls"></i><span class="{% if '/vehicledocument/' in request.path %}active{% endif %}">{% trans 'Vehicle Document' %}</span><i class="fa fa-chevron-left"></i></a></li>
+       <li class="dashborad reportbtn">
+			<a href="javascript:void(0)"><i class="fas fa-file-chart-pie iconcls"></i><span class="{% if '/report/' in request.path %}active{% endif %}"></span>{% trans 'Report' %}<i class="fa fa-chevron-down downicon"></i></a>
+			<ul class="discreport">
+				<li><a href="#"><span class="{% if '/lowstock/' in request.path %}active{% endif %}">{% trans 'Low Stock' %}</span></a></li>
+				<li><a href="#"><span class="{% if '/outofstock/' in request.path %}active{% endif %}">{% trans 'Out of Stock' %}</span></a></li>
+				<li><a href="#"><span class="{% if '/stockin/' in request.path %}active{% endif %}">{% trans 'Stock In' %}</span></a></li>
+			</ul>
+		</li>
+        {% comment %}
+		<!-- <li class="dashborad"><a href="{% url 'admin:index' %}"><i class="far fa-image"></i>Media Library<i class="fa fa-chevron-left"></i></a></li> -->
+		<li class="dashborad"><a href="#"><i class="far fa-credit-card iconcls"></i>Payments<i class="fa fa-chevron-left"></i></a></li>
+		<!-- <li class="dashborad"><a href="{% url 'admin:index' %}"><i class="fas fa-mobile-alt"></i>Mobile App Settings<i class="fa fa-chevron-left"></i></a></li> -->
+		<li class="dashborad"><a href="#"><i class="fas fa-cog iconcls"></i>Settings<i class="fa fa-chevron-left"></i></a></li>
+		<!-- {% dmenu %} -->
+        {% endcomment %}
+	</ul>
+	</div>
+</menu>
+{% endif %}
+{% endblock %}
+{% block usertools %}
+    {% if has_permission %}
+    <div id="user-tools" class="notification">
+        {% block welcome-msg %}
+            <!-- {% trans 'Welcome,' %} -->
+            <i class="fa fa-bell" style="padding-left: 20px;"></i>
+            <span><i class="fa fa-chevron-down"></i><strong>{% firstof user.get_short_name user.get_username %}</strong></span>
+            <i class="fa fa-user-circle" style="padding-left: 20px;"></i>
+            <ul class="menuitem">
+            	<li><a href="#">{% trans 'Change password' %}</a></li>
+            	<li><a href="#">{% trans 'Log out' %}</a></li>
+            </ul>
+        {% endblock %}
+        <!-- {% block userlinks %}
+            {% if site_url %}
+                <a href="{{ site_url }}">{% trans 'View site' %}</a> /
+            {% endif %}
+            {% if user.is_active and user.is_staff %}
+                {% url 'django-admindocs-docroot' as docsroot %}
+                {% if docsroot %}
+                    <a href="{{ docsroot }}">{% trans 'Documentation' %}</a> /
+                {% endif %}
+            {% endif %}
+            {% if user.has_usable_password %}
+            <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+            {% endif %}
+            <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+        {% endblock %} -->
+    </div>
+    {% endif %}
+{% endblock %}
+{% block nav-global %}
+
+{% endblock %}

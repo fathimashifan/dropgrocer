@@ -1,0 +1,87 @@
+{% extends 'index.html' %}{% load st_tags %}{% load i18n %}
+{% load static %}
+{% block content %}
+
+	<div class="container-fluid">
+		<div class="mainrow">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="menullist">
+                                <ul class="list-unstyled">
+                                    <li><a href="{% url 'home' %}">{% trans 'HOME' %}</a></li>
+                                    <li><a href="{% url 'products' %}">{% trans 'STORE' %}</a></li>
+                                    <li><a href="{% url 'account' %}">{% trans 'MY ACCOUNT' %}</a></li>
+                                    <li><a href="{% url 'wishlist' %}">{% trans 'WISHLIST' %}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="locationdiv11">
+                                <button class="btn" type="button"><i class="fas fa-map-marker-alt"></i></button><span>{% trans 'Select Your Location' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="reviewandstar">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="singleprodrevi">
+						<h2>{% trans 'Rating & Review' %}</h2>
+					</div>
+					{% if messages %}
+						{% for message in messages %}
+							<h5>{{message}}</h5>
+						{% endfor %}
+					{% endif %}
+				</div>
+				<div class="col-md-6">
+					<dir class="productdetailss">
+						<span class="prodtit"><a href="{% url 'product' product.slug %}">{{product.title}}</a><a href="{% url 'product' product.slug %}"><img src="{% if product.image %}{{product.image.url}}{% endif %}"></a></span>
+						<p>{{product.avg_rating}}<i class="fas fa-star"></i></p>
+						<span></span>
+						
+					</dir>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="modal-body">
+                    <form method="POST" class="ratingform">
+                        {% csrf_token %}
+                        <div class="form-group">
+                        	<label for="recipient-name" class="col-form-label">{% trans 'Rate this Product:' %}</label>
+							<div class="rating"> 
+								<input type="radio" name="rating" value="5" id="5">
+								<label for="5">☆</label> 
+								<input type="radio" name="rating" value="4" id="4">
+								<label for="4">☆</label> 
+								<input type="radio" name="rating" value="3" id="3">
+								<label for="3">☆</label> 
+								<input type="radio" name="rating" value="2" id="2">
+								<label for="2">☆</label> 
+								<input type="radio" name="rating" value="1" id="1" placeholder="very bad">
+								<label for="1">☆</label>
+							</div>
+						</div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">{% trans 'Review this Product:' %}</label>
+                            <textarea class="form-control ratingnote" id="message-text" name="message" placeholder="Description"></textarea>
+                            <input type="hidden" class="form-control" id="recipient-name" name="product" value="{{product.id}}" product-name = "{{product.title}}" >
+                            <input type="hidden" class="form-control" id="recipient-name" name="username" value="{{product.admin.id}}">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+                        </div>
+                    </form>
+                </div>
+			</div>
+		</div>
+		<!-- <a href="#" class="button btn btn-primary orderbtn">Order</a> -->
+	</div>
+
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends 'index.html' %}{% load st_tags %}{% load i18n %}
+{% load static %}
+{% block content %}
+	<div class="container-fluid">
+		<div class="mainrow">
+			<div class="row">
+				<div class="col-md-2">
+					<div class="border borderclass">
+						<h4 class="categoryheading"><span style="padding-right:15px; "><i class="fas fa-bars"></i></span><strong><a href="#">All Categories</a></strong></h4>
+						<ul class="list-group categorylistas">
+							{% for category in category_list %}
+							  <li class="list-group-item listscroll"><a href="#">{{category.title}}</a></li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-10">
+					<div class="row">
+						<div class="col-md-9">
+							<div class="menullist">
+								<ul class="list-unstyled">
+									<li><a href="{% url 'home' %}">{% trans 'HOME' %}</a></li>
+									<li><a href="{% url 'products' %}">{% trans 'STORE' %}</a></li>
+									<li><a href="{% url 'account' %}">{% trans 'MY ACCOUNT' %}</a></li>
+									<li><a href="#">{% trans 'WISHLIST' %}</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="locationdiv11">
+								<button class="btn" type="button"><i class="fas fa-map-marker-alt"></i></button><span>{% trans 'Select Your Location' %}</span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="profileupdate"></div>
+						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+							<div class="jp_cp_left_side_wrapper profileimage">
+								<div class="jp_cp_left_pro_wallpaper">
+									{% if request.user.image %}
+									<img src="{% if request.user.image %}{{ request.user.image.url }}{% endif %}" alt="profile_img" style="width: 100%;">
+									
+									{% endif %}
+									<!-- <h2>{{user.first_name}} {{user.last_name}}</h2> -->
+								</div>
+							</div>
+		                    <div class="jp_add_resume_wrapper jp_job_location_wrapper jp_cp_left_ad_res">
+		                        <div class="jp_add_resume_img_overlay"></div>
+		                        <!-- <div class="jp_add_resume_cont">
+		                            <img src="images/content/resume_logo.png" alt="logo" />
+		                            <h4>Get Best Matched Jobs On your Email. Add Resume NOW!</h4>
+		                            <ul>
+		                                <li><a href="#"><i class="fa fa-plus-circle"></i> &nbsp;ADD RESUME</a></li>
+		                            </ul>
+		                        </div> -->
+		                    </div>
+						</div>
+						<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+							<div class="jp_cp_right_side_wrapper profileimage">
+								<div class="jp_cp_right_side_inner_wrapper">
+									<h2>{% trans 'PERSONAL DETAILS' %}</h2>
+									<table>
+		                                <tbody>
+		                                    <tr>
+		                                        <td class="td-w25">{% trans 'Full Name' %}</td>
+		                                        <td class="td-w10">:</td>
+		                                        <td class="td-w65">{{request.user.username}}
+		                                        </td>
+		                                    </tr>
+		                                    <tr>
+		                                        <td class="td-w25">{% trans 'Gender' %}</td>
+		                                        <td class="td-w10">:</td>
+		                                        <td class="td-w65">{{request.user.gender}}</td>
+		                                    </tr>
+		                                    <tr>
+		                                        <td class="td-w25">{% trans 'Date of birth' %}</td>
+		                                        <td class="td-w10">:</td>
+		                                        <td class="td-w65">{{request.user.dob}}</td>
+		                                    </tr>
+		                                    <!-- <tr>
+		                                        <td class="td-w25">Zip Code</td>
+		                                        <td class="td-w10">:</td>
+		                                        <td class="td-w65">{{request.user.address.postcode}}</td>
+		                                    </tr> -->
+		                                    <tr>
+		                                        <td class="td-w25">{% trans 'Mobile' %}</td>
+		                                        <td class="td-w10">:</td>
+		                                        <td class="td-w65">{{request.user.mobile}}</td>
+		                                    </tr>
+		                                    <tr>
+		                                        <td class="td-w25">{% trans 'Email' %}</td>
+		                                        <td class="td-w10">:</td>
+		                                        <td class="td-w65">{{request.user.email}}</td>
+		                                    </tr>
+		                                    <!-- <tr>
+		                                        <td class="td-w25">Website</td>
+		                                        <td class="td-w10">:</td>
+		                                        <td class="td-w65">http://example.com</td>
+		                                    </tr> -->
+		                                </tbody>
+		                            </table>
+		                            <div class="edituser">
+										<a href="{% url 'user_edit' %}" >Edit</a>
+		                            </div>
+
+								</div>
+								<!-- <div class="row justify-content-center">
+							        <div class="col-md-4 col-md-offset-2">
+							            <div class="shoppingbtn ">
+							                <a href="#">Continue Shopping</a>
+							                
+							            </div>
+							        </div>
+							    </div> -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

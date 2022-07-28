@@ -1,0 +1,109 @@
+{% extends 'index.html' %}{% load st_tags %}{% load i18n %}
+{% block head %}
+<meta name="csrf-token" content="{{csrf_token}}" />
+{% endblock %}
+{% load static %}
+{% load tz %}
+{% block content %}
+     <!-- start category and banner section -->
+    <div class="container-fluid">
+        <div class="mainrow">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="menullist">
+                                <ul class="list-unstyled">
+                                    <li><a href="{% url 'home' %}">{% trans 'HOME' %}</a></li>
+                                    <li><a href="{% url 'products' %}">{% trans 'STORE' %}</a></li>
+                                    <li><a href="{% url 'account' %}">{% trans 'MY ACCOUNT' %}</a></li>
+                                    <li><a href="{% url 'wishlist' %}">{% trans 'WISHLIST' %}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="locationdiv11">
+                                <button class="btn" type="button"><i class="fas fa-map-marker-alt"></i></button><span>{% trans 'Select Your Location' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            
+            <!-- <div class="col-md-12">
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active">Orders</li>
+                  </ol>
+                </nav>
+            </div> -->
+            {% for order in orderlist %}
+            <div class="col-md-12">
+                <div class="firstrowww">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <p>{% trans 'ORDER PLACED' %}</p>
+                            <p>{{order.timestamp | timezone:"Asia/Kolkata"}}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p>{% trans 'TOTAL' %}</p>
+                            <p>AED. {{order.total}}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p>{% trans 'SHIP TO' %}</p>
+                            <p>{{order.address.user.username}}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p>{% trans 'ORDER ID' %} <span>{{order.id}}</span></p>
+                            <p><a href="{% url 'order-details' order.pk %}">{% trans 'Order Details' %}</a></p>
+                        </div>
+                        <div class="col-md-2">
+                        {% if order.status != 'DELIVERED' %}
+                            {% if order.paymode == 'PENDING' %}
+                                <p>{% trans 'Action' %}</p>
+                                <p><a href="{% url 'payment' order.pk %}">{% trans 'Process Payment' %}</a></p>
+                            {% else %}
+                                <p>{% trans 'Action' %}</p>
+                                <p><a href="{% url 'track' order.pk %}">{% trans 'Track Your Order' %}</a></p>
+                            {% endif %}
+                        {% endif %}
+                        </div>
+
+                        <div class="col-md-2">
+                            <p>{% trans 'STATUS' %}</p>
+                            <p>{{order.status}}</p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="secondroww">
+                    {% for wishlist in order.wishlist.all %}
+                    <div class="row">
+                        <div class="col-md-2">
+                            <a href="{% url 'product' wishlist.product.slug %}"><img src="{% if wishlist.product.image %}{{wishlist.product.image.url}}{% endif %}" alt="product-image"></a>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="orderprodt">
+                                <p><a href="{% url 'product' wishlist.product.slug %}">{{wishlist.product.title}}</a></p>
+                                <p>{% trans 'Sold by:' %} {{wishlist.order.seller.username}}</p>
+                                <p>AED. {{wishlist.total}}</p>
+                                <p><a href="{% url 'product' wishlist.product.slug %}" class="btn bynewbtn">{% trans 'Buy it again' %}</a></p>
+                            </div>
+                        </div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-2">
+                            <a href="{% url 'productrating' wishlist.product.slug %}" class="btn btn-secondary reviewbtnacc" data-whatever="@mdo">{% trans 'Review' %}</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- End category and banner section -->
+
+{% endblock %}

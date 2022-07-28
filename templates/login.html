@@ -1,0 +1,86 @@
+<!DOCTYPE html>{% load static %}{% load i18n %}{% load st_tags %}
+<html lang="en">
+  <head>
+	<!-- Required meta tags -->
+	<title>{% block ttitle %}{% endblock %}{% trans 'Drop Grocer' %}</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/all.css">
+	<!-- <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/admin.css"> -->
+	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/dropgrocer.css">
+	<link rel="icon" href="{% static 'img/dropgrocer_favicon.png' %}">
+	{% block head %}
+	{% endblock %}
+  </head>
+  <body class="backgndcolor">
+	<div class="container-fluid">
+		<div class="row justify-content-center">
+			<div class="col-md-4 col-md-offset-2">
+				<div class="form-group dglogo" style="text-align: center;">
+					<a href="{% url 'home' %}"><img src="{% get_static_prefix %}img/dglogo.png"></a>
+			  	</div>
+			  	{% if form.non_field_errors %}
+			  	<div class="alert alert-danger" role="alert">
+				    {% for error in form.non_field_errors %}
+				      <p>{{ error }}</p>
+				    {% endfor %}
+			  	</div>
+				{% endif %}
+			  	<div class="signupclass">
+					<p>{% trans 'Sign in to start your session' %}</p>
+					<form method="POST" >
+						{% csrf_token %}
+					  	<div class="input-group mb-3">
+						  <input type="text" class="form-control" placeholder="Email Address" aria-label="Recipient's username" aria-describedby="basic-addon2" name="username" required>
+						  <div class="input-group-append">
+							<span class="input-group-text" id="basic-addon2"><i class="fas fa-envelope"></i></span>
+						  </div>
+						</div>
+						<div class="input-group mb-3">
+						  <input type="password" class="form-control" placeholder="Password" aria-label="Recipient's username" aria-describedby="basic-addon2" name="password" required>
+						  <div class="input-group-append">
+							<span class="input-group-text" id="basic-addon2"><i class="fas fa-lock"></i></span>
+						  </div>
+						</div>
+					  <div class="form-group form-check loginclsbtn">
+					    <input type="checkbox" class="form-check-input form-check-box" id="exampleCheck1">
+					    <label class="form-check-label form-check-box-label" for="exampleCheck1"><strong>{% trans 'Remember me' %}</strong></label>
+					    <button type="submit" class="btn btn-primary loginbtn float-right iq-fw-6">{% trans 'Login' %}</button>
+					  </div>
+					</form>
+					<div class="row">
+			            <div style="width: 100%; height: 12px; border-bottom: 1px solid black; text-align: center; margin-bottom: 3px;">
+							  <span style="background-color: #ffff; padding: 0 5px;">
+							    {% trans 'OR' %}
+							  </span>
+							</div>
+			        </div>
+
+					<div class="row justify-content-center">
+						<a href="#" class="social-google goolge-class"><i class="fab fa-google"></i>{% trans 'Register With Google' %}</a>
+					</div>
+					<div class="row justify-content-center">
+						<a href="#" class="social-google fb-class"><i class="fab fa-facebook-f"></i>{% trans 'Register With Facebook' %}</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12" style="text-align: center;">
+				<a href="#" class="alreadysign">{% trans 'I forgot my password' %}</a>
+			</div>
+			<div class="col-md-12" style="text-align: center;">
+				<a href="{% url 'signup' %}" class="alreadysign">{% trans 'Register a new membership' %}</a>
+			</div>
+		</div>
+	</div>
+	
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+		<script type="text/javascript" src="{% static 'js/admin.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/dropgrocer.js' %}"></script>
+  </body>
+</html>

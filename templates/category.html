@@ -1,0 +1,186 @@
+{% extends 'index.html' %}{% load i18n %}
+{% load static %}
+{% block content %}
+    <!-- start category and banner section -->
+    <div class="container-fluid">
+        <div class="mainrow">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="border borderclass">
+                      <h4 class="categoryheading"><span style="padding-right:15px; "><i class="fas fa-bars"></i></span><strong><a href="{% url 'category_list' %}">{% trans 'All Categories' %}</a></strong></h4>
+                      <ul class="list-group categorylistas">
+                        {% for category in category_list %}
+                          <li class="list-group-item listscroll"><a {% if category.slug in request.path %}  href="{% url 'subcategory' category.slug %}" style="color: green"{% else %} style=" color: #817c7c;" {% endif %}>{{category.title}}</a></li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="menullist">
+                                <ul class="list-unstyled">
+                                    <li><a href="{% url 'home' %}">{% trans 'HOME' %}</a></li>
+                                    <li><a href="{% url 'products' %}">{% trans 'STORE' %}</a></li>
+                                    <li><a href="{% url 'account' %}">{% trans 'MY ACCOUNT' %}</a></li>
+                                    <li><a href="{% url 'wishlist' %}">{% trans 'WISHLIST' %}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="locationdiv11">
+                                <button class="btn" type="button"><i class="fas fa-map-marker-alt"></i></button><span>{% trans 'Select Your Location' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="categoryhead">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3>{{category.title}}</h3>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p style="float: right;">{{users.start_index}}-{{users.end_index}} {{category.title}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12"><div class="recentborder"></div></div>
+
+                        <div class="col-md-12">
+                          <div class="sortingg">
+                            <span>{% trans 'Sort By' %}</span>
+                            <form method="GET" id="myform">
+                              <select name="orderby" onchange="submitform(this);">
+                                <option>{% trans 'select order' %}</option>
+                                <option value="alphabatically">{% trans 'Alphabatically' %}</option>
+                                <option value="offers">{% trans 'Offers' %}</option>
+                                <option value="daily-deal">{% trans 'Daily Deal' %}</option>
+                                <option value="recently-bought">{% trans 'Recently Bought' %}</option>
+                                <option value="seasonal">{% trans 'Seasonal' %}</option>
+                              </select>
+                            </form>
+                          </div>
+                        </div>
+                        {% for subcategory in users %}
+                        <div class="col-md-3">
+                            <div class="recentdiv1">
+                                <div class="rcentprodimag1">
+                                    <a href="{% url 'subcategory' subcategory.slug %}"><img src="{% if subcategory.image %}{{subcategory.image.url}}{% endif %}"></a>
+                                </div>
+                                <div class="bottomdiv1">
+                                    <!-- <div class="productde"> -->
+                                        <h5><a href="{% url 'subcategory' subcategory.slug %}">{{subcategory.title}}</a></h5>
+                                        <!-- <p><i class="fal fa-heart"></i></p> -->
+                                    <!-- </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row justify-content-center">
+            <!-- <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#">Next</a>
+                </li>
+              </ul>
+            </nav> -->
+            <nav>
+              <ul class="pagination justify-content-center">
+              {% if users.has_previous %}
+                 <li class="page-item">
+                    <a class="page-link" href="?page={{users.previous_page_number}}">{% trans 'Previous' %}</a>
+                 </li>
+              {% else %}
+                 <li class="page-item">
+                    <a class="page-link" href="">{% trans 'Previous' %}</a>
+                 </li>
+              {% endif %}
+              {% for i in users.paginator.page_range %}
+                 {% if users.number == i %}
+                 <li class="page-item active"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                 {% else %}
+                  <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                  {% endif %}
+              {% endfor %}
+              {% if users.has_next %}
+                 <li class="page-item">
+                    <a class="page-link" href="?page={{users.next_page_number}}">{% trans 'Next' %}</a>
+                 </li>
+              {% else %}
+                 <li class="page-item">
+                    <a class="page-link" href="">{% trans 'Next' %}</a>
+                 </li>
+              {% endif %}
+              </ul>
+           </nav>
+        </div>
+    </div>
+    <!-- End category and banner section -->
+    <!-- Start product list section -->
+    <!-- <div class="container-fluid">
+    	<div class="row">
+    		<div class="col-md-12">
+                <div class="row">
+        			<div class="col-md-6">
+                        <h3>{{category.title}}</h2>
+        			</div>
+                    <div class="col-md-6">
+                        <p style="float: right;">1-8 product of 1000 result for Apple</h2>
+                    </div>
+                </div>
+            </div>
+            {% for products in product %}
+            <div class="col-md-3">
+                <div class="recentdiv1">
+                    <div class="rcentprodimag1">
+                        <a href="{% url 'home:product' products.slug %}"><img src="{% if products.image %}{{products.image.url}}{% endif %}"></a>
+                    </div>
+                    <div class="bottomdiv1">
+                        <div class="productde">
+                            <h5><a href="{% url 'home:product' products.slug %}">{{products.title}}</a></h5>
+                            <p><i class="fal fa-heart"></i></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+    	</div>
+    </div> -->
+    <!-- End product list section -->
+
+
+
+	<!-- <div class="container-fluid">
+		<div class="row">
+			{% for product in products %}
+			<div class="col-md-3">
+				<div class="productlist justifycontent">
+					<a href="{% url 'home:product' product.slug %}"><img src="{% if product.image %}{{product.image.url}}{% endif %}" width="150px;"></a>
+					<h3><a href="{{product.get_absolute_url}}">{{product.title}}</a></h3>
+					<p>{{product.content|safe|truncatewords:23}}</p>
+				</div>
+				<div class="pricelist">
+					<h5 class="col-md-6">Rs. {{product.price}}</h5>
+					<button type="submit" class="btn btn-primary wishlistbtn col-md-6" data-id = "{{product.id}}">Add to wishlist</button>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+		
+	</div> -->
+
+{% endblock %}

@@ -1,0 +1,138 @@
+{% extends 'index.html' %}{% load i18n %}{% load st_tags %}
+
+{% block title %}
+{% trans 'product:' %}
+{% endblock %}
+{% block head %}
+
+<meta name="csrf-token" content="{{csrf_token}}" />
+{% endblock %}
+{% load static %}
+{% block content %}
+    <!-- start category and banner section -->
+    <div class="container-fluid">
+        <div class="mainrow">
+            <div class="row">
+                <div class="col-md-2">
+                    
+                  <div class="border borderclass">
+                    <h4 class="categoryheading"><span style="padding-right:15px; "><i class="fas fa-bars"></i></span><strong><a href="{% url 'category_list' %}">{% trans 'All Categories' %}</a></strong></h4>
+                    <ul class="list-group categorylistas">
+                      {% for category in category_list %}
+                        <li class="list-group-item listscroll"><a href="{% url 'subcategory' category.slug %}">{{category.title}}</a></li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="menullist">
+                                <ul class="list-unstyled">
+                                    <li><a href="{% url 'home' %}">{% trans 'HOME' %}</a></li>
+                                    <li><a href="{% url 'products' %}">{% trans 'STORE' %}</a></li>
+                                    <li><a href="{% url 'account' %}">{% trans 'MY ACCOUNT' %}</a></li>
+                                    <li><a href="{% url 'wishlist' %}">{% trans 'WISHLIST' %}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="locationdiv11">
+                                <button class="btn" type="button"><i class="fas fa-map-marker-alt"></i></button><span>{% trans 'Select Your Location' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="productlst">
+                          <h2>{{page_obj.start_index}} to {{page_obj.end_index}} products of 1000 results</h2>
+                        </div>
+                      </div>
+                      {% for product in products %}
+                        <div class="col-md-3">
+                            <div class="recentdiv categoryprod">
+                                <div class="rcentprodimag" style="min-height: 170px;">
+                                    <a href="{% url 'product' product.slug %}"><img src="{% if product.image %}{{product.image.url}}{% endif %}"></a>
+                                </div>
+                                <div class="bottomdiv">
+                                    <div class="productde">
+                                        <h6><a href="{% url 'product' product.slug %}">{{product.title|truncatechars:25}}</a></h6>
+                                        <p>AED <span class="productprice">{{product.price|floatformat:2}}</span>
+                                          <button type="button" class="heartbtn" heart-id = "{{product.id}}" name = "heart{{product.id}}" >{% if product.id %}<i class="fal fa-heart heartcolor" id="icon_{{product.id}}"></i>{% else %}<i class="fal fa-heart" id="icon_{{product.id}}"></i>{% endif %}</button>
+                                        </p>
+                                    </div>
+                                    <div class="rating">
+                                      {% for _ in '12345' %}
+                                        {% if forloop.counter <= product.avg_rating %}
+                                        <!-- <span class="starchecked">☆</span> -->
+                                        <span class="fa fa-star starchecked"></span>
+                                        {% else %}
+                                        <!-- <span>☆</span> -->
+                                        <span class="fa fa-star withoutchecked"></span>
+                                        {% endif %}
+                                      {% endfor %}
+                                    </div>
+                                    {% if product.stock_availbility %}
+                                      <div class="addtocart" style="margin: 0 auto 0 39px !important;">
+                                          <button type="submit" class="border wishlistbtn" data-id = "{{product.id}}">{% trans 'Add to cart' %}</button>
+                                          <form class="productforminpt">
+                                              
+                                              <input name="qty" id="quantity{{product.id}}" type="text" class="qty inputquanatity" value="{{product.id}}" product-id="{{product.id}}">
+                                              <div class="cart-button homebtn">
+                                                  <button type="submit" class="arrowup plusarrow" product-id="{{product.id}}" class-name = "plusq"><i class="fas fa-angle-up" ></i></button>
+                                                  <button type="submit" class="arrowup minusarrow" product-id="{{product.id}}" class-name = "minusq"><i class="fas fa-angle-down"></i></button>
+                                              </div>
+                                          </form>
+                                      </div>
+                                    {% else %}
+                                      <p class="outofstock wishlistbtn" style="padding: 7px 15px; margin-bottom: unset;margin: 0 40px;">{% trans 'Out of stock' %}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End category and banner section -->
+    <!-- Start product list section -->
+    <div class="container-fluid">
+    	
+        <hr>
+        <div class="row justify-content-center">
+            <nav>
+              <ul class="pagination justify-content-center">
+              {% if page_obj.has_previous %}
+                 <li class="page-item">
+                    <a class="page-link" href="?page={{page_obj.previous_page_number}}">{% trans 'Previous' %}</a>
+                 </li>
+              {% else %}
+                 <li class="page-item">
+                    <a class="page-link" href="">{% trans 'Previous' %}</a>
+                 </li>
+              {% endif %}
+              {% for i in page_obj.paginator.page_range %}
+                 {% if page_obj.number == i %}
+                 <li class="page-item active"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                 {% else %}
+                  <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                  {% endif %}
+              {% endfor %}
+              {% if page_obj.has_next %}
+                 <li class="page-item">
+                    <a class="page-link" href="?page={{page_obj.next_page_number}}">{% trans 'Next' %}</a>
+                 </li>
+              {% else %}
+                 <li class="page-item">
+                    <a class="page-link" href="">{% trans 'Next' %}</a>
+                 </li>
+              {% endif %}
+              </ul>
+           </nav>
+        </div>
+    </div>
+    <!-- End product list section -->
+
+{% endblock %}

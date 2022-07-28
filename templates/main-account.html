@@ -1,0 +1,140 @@
+{% extends 'index.html' %}{% load st_tags %}{% load i18n %}
+{% load static %}
+{% block head %}
+<meta name="csrf-token" content="{{csrf_token}}" />
+{% endblock %}
+{% block content %}
+	 <!-- start category and banner section -->
+    <div class="container-fluid">
+        <div class="mainrow">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="menullist">
+                                <ul class="list-unstyled">
+                                    <li><a href="{% url 'home' %}">{% trans 'HOME' %}</a></li>
+                                    <li><a href="{% url 'products' %}">{% trans 'STORE' %}</a></li>
+                                    <li><a href="{% url 'account' %}">{% trans 'MY ACCOUNT' %}</a></li>
+                                    <li><a href="{% url 'wishlist' %}">{% trans 'WISHLIST' %}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="locationdiv11">
+                                <button class="btn" type="button"><i class="fas fa-map-marker-alt"></i></button><span>{% trans 'Select Your Location' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"><h2 class="headingsss">{% trans 'Account' %}</h2></div>
+            <div class="col-md-4">
+                <div class="accountdiv">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="fonticonss">
+                                <i class="fas fa-square"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="orderclas">
+                                <h5><a href="#">{% trans 'Your Orders' %}</a></h5>
+                                <p>{% trans 'Track, return or buy things again' %}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="accountdiv">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="fonticonss">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="orderclas">
+                                <h5><a href="{% url 'profile' %}">{% trans 'Login & Security' %}</a></h5>
+                                <p>{% trans 'Edit Login, Name and Mobile Number' %}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="accountdiv">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="fonticonss">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="orderclas">
+                                <h5><a href="{% url 'address' %}">{% trans 'Your Addressess' %}</a></h5>
+                                <p>{% trans 'Edit Addressess for orders' %}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           <!--  <div class="col-md-4">
+                <div class="accountdiv">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="fonticonss">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="orderclas">
+                                <h5>Settings</h5>
+                                <p>Settings</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="accountdiv">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="fonticonss">
+                                <i class="far fa-credit-card"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="orderclas">
+                                <h5>Payment Methods</h5>
+                                <p>Edit or Payment methods</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="accountdiv">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="fonticonss">
+                                <i class="fas fa-square"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="orderclas">
+                                <h5>Your Orders</h5>
+                                <p>Track, return or buy things again</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <!-- End category and banner section -->
+
+{% endblock %}

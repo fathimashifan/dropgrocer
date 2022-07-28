@@ -1,0 +1,139 @@
+{% extends 'index.html' %}{% load st_tags %}{% load i18n %}
+{% block head %}
+<meta name="csrf-token" content="{{csrf_token}}" />
+{% endblock %}
+{% load static %}
+{% block content %}
+     <!-- start category and banner section -->
+    <div class="container-fluid">
+        <div class="mainrow">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="menullist">
+                                <ul class="list-unstyled">
+                                    <li><a href="{% url 'home' %}">{% trans 'HOME' %}</a></li>
+                                    <li><a href="{% url 'products' %}">{% trans 'STORE' %}</a></li>
+                                    <li><a href="{% url 'account' %}">{% trans 'MY ACCOUNT' %}</a></li>
+                                    <li><a href="{% url 'wishlist' %}">{% trans 'WISHLIST' %}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="locationdiv11">
+                                <button class="btn" type="button"><i class="fas fa-map-marker-alt"></i></button><span>{% trans 'Select Your Location' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+          
+        
+            <div class="col-md-12">
+                <div class="orderhead">
+                    <h1>{% trans 'Order Details' %}</h1>
+                    <span class="orderdatee">{% trans 'Ordered on' %} {{order.utimestamp|date:"d F Y"}}</span> <span>{% trans 'Order#:' %} {{order.id}}</span><span class="invoicespan"><a href="{% url 'invoice' order.id %}" target="_blank">{% trans 'Invoice' %}</a></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="orderdetailsss border">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="shippingadd">
+                                <h4><strong>{% trans 'Shipping Address' %}</strong></h4>
+                                <p>{{order.address.user.first_name}} {{order.address.user.last_name}}</p>
+                                <p>{{order.address.title}}</p>
+                                <p>{{order.address.city}} {{order.address.postcode}}</p>
+                                <p>{{order.address.state.title}}</p>
+                                <p>{{order.address.country.name}}</p>
+                                <p>{{order.address.user.mobile}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="paymenttype">
+                                <h4><strong>{% trans 'Payment Method' %}</strong></h4>
+                                <p>{{order.paymode}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="ordersummary">
+                                <h4><strong>{% trans 'Order Summary' %}</strong></h4>
+                                <ul class="list-unstyled">
+                                    <li><span>{% trans 'Item(s) Subtotal:' %}</span><span class="numberleft">{{order.total|floatformat:2}}</span></li>
+                                    <li><span>{% trans 'Delivery amount:' %}</span><span class="numberleft">{{delivery_charge.amount|floatformat:2}}</span></li>
+                                    <li></li>
+                                    <li><span>{% trans 'Total:' %}</span><span class="numberleft">{{order.total|floatformat:2}}</span></li>
+                                    <li><span>{% trans 'Promotion Applied:' %}</span><span class="numberleft"></span></li>
+                                    <li></li>
+                                    <li><span>{% trans 'Grand Total:' %}</span><span class="numberleft">{{order.total|floatformat:2}}</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="orderdetailsss secondroww border">
+                    {% for wishlist in order.wishlist.all %}
+                        <div class="row">
+                            <div class="col-md-2">
+                                <a href="{% url 'product' wishlist.product.slug %}"><img src="{% if wishlist.product.image %}{{wishlist.product.image.url}}{% endif %}" alt="product-image"></a>
+                                <!-- <p>sold by:</p> -->
+                            </div>
+                            <div class="col-md-5">
+                                <div class="orderprodt">
+                                    <p><a href="{% url 'product' wishlist.product.slug %}">{{wishlist.product.title}}</a></p>
+                                    <p>{% trans 'Sold by:' %}' {{order.seller.username}}</p>
+                                    <p>AED. {{wishlist.total|floatformat:2}}</p>
+                                    <p><a href="{% url 'product' wishlist.product.slug %}" class="btn bynewbtn">{% trans 'Buy it again' %}</a></p>
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-secondary reviewbtnacc" data-toggle="modal" data-target="#exampleModal{{forloop.counter}}" data-whatever="@mdo">{% trans 'Product review' %}</button>
+                                <div class="modal fade" id="exampleModal{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">{% trans 'Review Rating on Product' %}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    <div class="modal-body">
+                                        <form method="POST">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Rating:</label>
+                                                <input type="number" class="form-control" id="recipient-name" name="rating" step="1">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">{% trans 'Review:' %}</label>
+                                                <textarea class="form-control" id="message-text" name="message"></textarea>
+                                                <input type="hidden" class="form-control" id="recipient-name" name="product" value="{{wishlist.product.id}}">
+                                                <input type="hidden" class="form-control" id="recipient-name" name="username" value="{{order.address.user.id}}">
+                                                <input type="hidden" class="form-control" id="recipient-name" name="orderid" value="{{order.id}}">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                      
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <!-- End category and banner section -->
+
+{% endblock %}

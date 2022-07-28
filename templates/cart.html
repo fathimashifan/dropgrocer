@@ -1,0 +1,217 @@
+{% extends 'index.html' %}{% load st_tags %}{% load i18n %}
+{% load static %}
+{% block head %}
+<meta name="csrf-token" content="{{csrf_token}}" />
+{% endblock %}
+{% block content %}
+	 <!-- start category and banner section -->
+    <div class="container-fluid">
+        <div class="mainrow">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="border borderclass">
+                        <h4 class="categoryheading"><span style="padding-right:15px; "><i class="fas fa-bars"></i></span><strong><a href="{% url 'category_list' %}">{% trans 'All Categories' %}</a></strong></h4>
+                        <ul class="list-group categorylistas">
+                            {% for category in category_list %}
+                              <li class="list-group-item listscroll"><a href="#">{{category.title}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="menullist">
+                                <ul class="list-unstyled">
+                                    <li><a href="{% url 'home' %}">{% trans 'HOME' %}</a></li>
+                                    <li><a href="{% url 'products' %}">{% trans 'STORE' %}</a></li>
+                                    <li><a href="{% url 'account' %}">{% trans 'MY ACCOUNT' %}</a></li>
+                                    <li><a href="{% url 'wishlist' %}">{% trans 'WISHLIST' %}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="locationdiv11">
+                                <button class="btn" type="button"><i class="fas fa-map-marker-alt"></i></button><span>{% trans 'Select Your Location' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="categoryhead">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p>{% trans 'Shopping Cart Summary' %}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p style="float: right;"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% if wishlists|length == 0 %}
+                        <div class="col-md-12">
+                            <div style="color: red; margin-bottom: 30px;">{% trans 'No item in cart.' %}</div>
+                        </div>
+                        {% else %}
+                        <div class="col-md-12">
+                            <table class="table table-bordered wishlistadding">
+                              <thead>
+                                <tr>
+                                  <th scope="col">{% trans 'Product image' %}</th>
+                                  <th scope="col">{% trans 'Product Name' %}</th>
+                                  <th scope="col">{% trans 'Availability' %}</th>
+                                  <th scope="col">{% trans 'Unit Price' %}</th>
+                                  <th scope="col">{% trans 'Quantity' %}</th>
+                                  <th scope="col">{% trans 'Total' %}</th>
+                                  <th scope="col">{% trans 'Remove' %}</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for wishlist in wishlists %}
+                                <tr id="div{{wishlist.product.id}}">
+                                    <td>
+                                        <a href="{% url 'product' wishlist.product.slug %}"><img src="{% if wishlist.product.image %}{{wishlist.product.image.url}}{% endif %}" width="100px;" height="60px;"></a>
+                                    </td>
+                                    <td><a href="{% url 'product' wishlist.product.slug %}">{{wishlist.product.title}}</a></td>
+                                    <td>{% if wishlist.product.stock_availbility %} {% trans 'Available' %} {% else%} {% trans 'Out of stock' %} {% endif %}</td>
+                                    <td>AED. {{wishlist.product.price|floatformat:2}}</td>
+                                    <td>
+                                        <form>
+                                            <input name="qty" id="quantity{{wishlist.product.id}}" type="text" class="qty inputquanatity" value="{{wishlist.quantity}}" product-id="{{product.id}}">
+                                            <div class="cart-button wishlistbtn12">
+                                                <button type="submit" class="arrowup plusarrow" product-id="{{wishlist.product.id}}" class-name = "plusq"><i class="fas fa-angle-up" ></i></button>
+                                                <button type="submit" class="arrowup minusarrow" product-id="{{wishlist.product.id}}" class-name = "minusq"><i class="fas fa-angle-down"></i></button>
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <td><h6 class="wishlisttotal" price-id ="{{wishlist.product.id}}" id="price_count{{wishlist.product.id}}">AED. {{wishlist.total|floatformat:2}}</h6></td>
+                                    <td><button type="button" class="wishlistbtnn12 btnborder" product-id = "{{wishlist.product.id}}" cart-delete = "cart"><i class="fas fa-trash"></i></button></td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-12">
+                            <table class="table table-bordered table-sm spantable">
+                              <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td>{% trans 'Total Product' %}<span id="like_countt">{{wishlists|length}}</span></td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="5">
+                                        <ul class="list-unstyled" class="app-promo-code">
+                                            <li><label>{% trans 'Apply Promo Code' %}</label></li>
+                                            <li>
+                                                <input type="text" name="promocode" class="promocdeed">
+                                                <button type="submit" class="promocodebtn">{% trans 'Ok' %}</button>
+                                            </li>
+                                            <li><p id="validdiscount"></p></li>
+                                            <li><p id="notvaliddiscount"></p></li>
+                                        </ul>
+                                    </td>
+                                    <td>Tax</td>
+                                </tr>
+                                <tr>
+                                  <td>{% trans 'Delivery Charge' %}<span>{% if delvery_charge is None %}0 {% else %}{{delvery_charge.amount}}{% endif %}</span></td>
+                                </tr>
+                                <tr>
+                                  <td>{% trans 'Total' %}<span id="wishlist-total">AED. {% if wishlist_sum == None %} 0 {% else %}{{wishlist_sum|add:delvery_charge.amount|floatformat:2}}{% endif %}</span></td>
+                                </tr>
+                                <tr id="promo-dis">
+                                  <td>{% trans 'Promo Discount' %}<span style="color: red;">-0</span></td>
+                                </tr>
+                                <tr id="grandtotal" style="font-weight: bold;">
+                                  <td>{% trans 'Grand Total' %}'<span>AED. {% if wishlist_sum == None %} 0 {% else %}{{wishlist_sum|add:delvery_charge.amount|floatformat:2}}{% endif %}</span></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-md-4">
+                            <div class="shoppingbtn ">
+                                <a href="{% url 'home' %}">{% trans 'Continue Shopping' %}</a>
+                                {% if wishlists|length > 0 %}
+                                    <a href="{% url 'checkout' %}">{% trans 'Check out' %}</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End category and banner section -->
+	<div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="recentborder">
+                    <h3>{% trans 'Similar Product' %}</h3>
+                </div>
+            </div>
+            <div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel"  data-interval="1000">
+                <div class="MultiCarousel-inner">
+                    {% for product in product_list %}
+                    <div class="item">
+                        <div class="recentdiv">
+                            <div class="rcentprodimag" style="min-height: 150px;">
+                                <a href="{% url 'product' product.slug %}"><img src="{% if product.image %}{{product.image.url}}{% endif %}" style="max-height: 150px;"></a>
+                            </div>
+                            <div class="bottomdiv">
+                                <div class="productde">
+                                    <h6>
+                                        <a href="{% url 'product' product.slug %}">{{product.title}}</a>
+                                    </h6>
+                                    <P>AED <span class="productprice">{{product.price}}</span>
+                                        {% if request.user.is_authenticated %}
+                                        <button type="button" class="heartbtn" heart-id = "{{product.id}}" name = "heart" style="background-color: unset;">{% if product.id|wishproditem:request %}<i class="fal fa-heart heartcolor" id="icon_{{product.id}}"></i>{% else %}<i class="fal fa-heart" id="icon_{{product.id}}"></i>{% endif %}</button>
+                                        {% else %}
+                                        <button type="button" class="heartbtn" heart-id = "{{product.id}}" name = "heart" disabled>{% if product.id|wishproditem:request %}<i class="fal fa-heart heartcolor" id="icon_{{product.id}}"></i>{% else %}<i class="fal fa-heart" id="icon_{{product.id}}"></i>{% endif %}</button>
+                                        {% endif %}
+                                    </P>
+                                </div>
+                                <div class="rating">
+                                    {% for _ in '12345' %}
+                                        {% if forloop.counter <= product.avg_rating %}
+                                        <!-- <span class="starchecked">☆</span> -->
+                                        <span class="fa fa-star starchecked"></span>
+                                        {% else %}
+                                        <!-- <span>☆</span> -->
+                                        <span class="fa fa-star withoutchecked"></span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="addtocart" style="width: 95%;">
+                                    <button type="submit" class="wishlistbtn" data-id = "{{product.id}}">{% trans 'Add to cart' %}</button>
+                                    <form>
+                                        <input name="qty" id="quantity{{product.id}}" type="text" class="qty inputquanatity" value="{{product.id|wishprod:request}}" product-id="{{product.id}}">
+                                        <div class="cart-button homebtn">
+                                            <button type="submit" class="arrowup plusarrow" product-id="{{product.id}}" class-name = "plusq"><i class="fas fa-angle-up" ></i></button>
+                                            <button type="submit" class="arrowup minusarrow" product-id="{{product.id}}" class-name = "minusq"><i class="fas fa-angle-down"></i></button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <!-- <div class="item">
+                        <div class="pad15">
+                            <p class="lead">Multi Item Carousel</p>
+                            <p>₹ 1</p>
+                            <p>₹ 6000</p>
+                            <p>50% off</p>
+                        </div>
+                    </div> -->
+                </div>
+                <button class="btn btn-primary leftLst"><</button>
+                <button class="btn btn-primary rightLst">></button>
+            </div>
+        </div>
+        <hr>
+	</div>
+
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'index.html' %}{% load st_tags %}{% load i18n %}
+{% block head %}
+<meta name="csrf-token" content="{{csrf_token}}" />
+{% endblock %}
+{% load static %}
+{% block content %}
+	 <!-- start category and banner section -->
+    <div class="container-fluid">
+        <div class="mainrow">
+            <div class="row">
+                <div class="col-md-2">
+              <div class="border borderclass">
+                        <h4 class="categoryheading"><span style="padding-right:15px; "><i class="fas fa-bars"></i></span><strong><a href="{% url 'category_list' %}">{% trans 'All Categories' %}</a></strong></h4>
+                        <ul class="list-group categorylistas">
+                            {% for category in category_list %}
+                              <li class="list-group-item listscroll"><a href="{% url 'subcategory' category.slug %}">{{category.title}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="menullist">
+                                <ul class="list-unstyled">
+                                    <li><a href="{% url 'home' %}">{% trans 'HOME' %}</a></li>
+                                    <li><a href="{% url 'products' %}">{% trans 'STORE' %}</a></li>
+                                    <li><a href="{% url 'account' %}">{% trans 'MY ACCOUNT' %}</a></li>
+                                    <li><a href="{% url 'wishlist' %}">{% trans 'WISHLIST' %}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="locationdiv11">
+                                <button class="btn" type="button"><i class="fas fa-map-marker-alt"></i></button><span>{% trans 'Select Your Location' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="categoryhead">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p class="addmorebtn"><a href="{% url 'products' %}"><i class="fas fa-plus-circle"></i></a><span>{% trans 'Add More Items' %}</span></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <table class="table table-bordered wishlistadding">
+                              <thead>
+                                <tr>
+                                  <th scope="col">{% trans 'Product Image' %}</th>
+                                  <th scope="col">{% trans 'Product Name' %}</th>
+                                  <th scope="col">{% trans 'Availability' %}</th>
+                                  <th scope="col">{% trans 'Unit Price' %}</th>
+                                  <!-- <th scope="col">Quantity</th> -->
+                                  <th scope="col">{% trans 'View product' %}</th>
+                                  <th scope="col">{% trans 'Delete' %}</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for wishlist in wishlists %}
+                                <tr id="div{{wishlist.product.id}}">
+                                    <td>
+                                        <a href="{% url 'product' wishlist.product.slug %}"><img src="{% if wishlist.product.image %}{{wishlist.product.image.url}}{% endif %}" width="100px;" height="60px;"></a>
+                                    </td>
+                                    <td class="productdetils">
+                                        <a href="{% url 'product' wishlist.product.slug %}"><span class="wishlistprodt">{{wishlist.product.title}}</span></a>
+                                        <div class="rating">
+                                            {% for _ in '12345' %}
+                                                {% if forloop.counter <= wishlist.product.avg_rating %}
+                                                <span class="starchecked">☆</span>
+                                                {% else %}
+                                                <span>☆</span>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        <p>{% trans 'added on' %} {{wishlist.timestamp|date:"d M Y"}}</p>
+                                    </td>
+                                    <td>{% if wishlist.product.stock_availbility %} {% trans 'In Stock '%} {% else %} out of stock {% endif %}</td>
+                                    <td>AED. {{wishlist.product.price|floatformat:2}}</td>
+                                    
+                                    <td>{% if wishlist.product.stock_availbility %}<button type="submit" class="border rounded-lg cartbtn" data-id = "{{wishlist.product.id}}" cart-id = "cart">{% trans 'cart' %}</button> {% else %} <p class="outofstock wishlistbtn" style="padding: 7px 15px; margin-bottom: unset;margin: 0 34px;">{% trans 'Out of stock' %}</p> {% endif %} </td>
+                                    <td><button type="button" class="btnborder wishlistbtndel" data-id = "{{wishlist.product.id}}"><i class="fas fa-trash"></i></button></td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End category and banner section -->
+	<div class="container-fluid">
+	</div>
+
+{% endblock %}

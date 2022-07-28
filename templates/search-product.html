@@ -1,0 +1,99 @@
+{% extends 'index.html' %}{% load st_tags %}{% load i18n %}
+{% block head %}
+<meta name="csrf-token" content="{{csrf_token}}" />
+{% endblock %}
+{% load static %}
+{% block content %}
+    <!-- start category and banner section -->
+    <div class="container-fluid">
+        <div class="mainrow">
+            <div class="row">
+                <div class="col-md-2">
+                 
+                    <div class="border borderclass">
+                      <h4 class="categoryheading"><span style="padding-right:15px; "><i class="fas fa-bars"></i></span><strong><a href="{% url 'category_list' %}">{% trans 'All Categories' %}</a></strong></h4>
+                      <ul class="list-group categorylistas">
+                        {% for category in category_list %}
+                          <li class="list-group-item listscroll"><a href="{% url 'subcategory' category.slug %}">{{category.title}}</a></li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="menullist">
+                                <ul class="list-unstyled">
+                                    <li><a href="{% url 'home' %}">{% trans 'HOME' %}</a></li>
+                                    <li><a href="{% url 'products' %}">{% trans 'STORE' %}</a></li>
+                                    <li><a href="{% url 'account' %}">{% trans 'MY ACCOUNT' %}</a></li>
+                                    <li><a href="{% url 'wishlist' %}">{% trans 'WISHLIST' %}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="locationdiv11">
+                                <button class="btn" type="button"><i class="fas fa-map-marker-alt"></i></button><span>{% trans 'Select Your Location' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="productlst">
+                        </div>
+                      </div>
+                      {% if plist|length == 0 %}
+                      <div class="col-md-3 errormsg">
+                        {% trans 'Product not found.' %}
+                    </div>
+                      {% endif %}
+                      {% for product in plist %}
+                        <div class="col-md-3">
+                            <div class="recentdiv categoryprod">
+                                <div class="rcentprodimag" style="min-height: 170px;">
+                                    <a href="{% url 'product' product.slug %}"><img src="{% if product.image %}{{product.image.url}}{% endif %}"></a>
+                                </div>
+                                <div class="bottomdiv">
+                                    <div class="productde">
+                                        <h6><a href="{% url 'product' product.slug %}">{{product.title|truncatechars:25}}</a></h6>
+                                        <p>AED <span class="productprice">{{product.price}}</span>
+                                          <button type="button" class="heartbtn" heart-id = "{{product.id}}" name = "heart" >{% if product.id|wishproditem:request %}<i class="fal fa-heart heartcolor" id="icon_{{product.id}}"></i>{% else %}<i class="fal fa-heart" id="icon_{{product.id}}"></i>{% endif %}</button>
+                                        </p>
+                                    </div>
+                                    <div class="rating">
+                                      {% for _ in '12345' %}
+                                        {% if forloop.counter <= product.avg_rating %}
+                                        <!-- <span class="starchecked">☆</span> -->
+                                        <span class="fa fa-star starchecked"></span>
+                                        {% else %}
+                                        <!-- <span>☆</span> -->
+                                        <span class="fa fa-star withoutchecked"></span>
+                                        {% endif %}
+                                      {% endfor %}
+                                    </div>
+                                    <div class="addtocart">
+                                        <button type="submit" class="border wishlistbtn" data-id = "{{product.id}}">{% trans 'Add to cart' %}</button>
+                                        <form class="productforminpt">
+                                            
+                                            <input name="qty" id="quantity{{product.id}}" type="text" class="qty inputquanatity" value="{{product.id|wishprod:request}}" product-id="{{product.id}}">
+                                            <div class="cart-button homebtn">
+                                                <button type="submit" class="arrowup plusarrow" product-id="{{product.id}}" class-name = "plusq"><i class="fas fa-angle-up" ></i></button>
+                                                <button type="submit" class="arrowup minusarrow" product-id="{{product.id}}" class-name = "minusq"><i class="fas fa-angle-down"></i></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End category and banner section -->
+    <!-- Start product list section -->
+
+    <!-- End product list section -->
+
+{% endblock %}
